@@ -1,4 +1,6 @@
-import java.util.Scanner;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class Main {
 
@@ -12,13 +14,30 @@ public class Main {
                 + "|__|  /__/     \\_\\|__| \\_\\ |__|     |__| |__|  |__|  \\____ /  |_____/  \n"
                 );
 	    System.out.println("WELCOME TO FARMHUB\n");
-        System.out.println("PRESS ENTER TO PROCEED...\n");
+        System.out.println("LOG IN TO PROCEED...\n");
 
-        Scanner scanner = new Scanner(System.in);
-        scanner.nextLine();
+        //Establish single database connection
+        Main app = new Main();
+        Connection conn = app.connectPSQL();
+
+        //Authentication
+        Login.authenticate(0, conn);
 
 
 
 
+    }
+
+    /// This method creates a connection object to the database.
+    public Connection connectPSQL() {
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(Ressources.url, Ressources.user, Ressources.password);
+            System.out.println("Connected to the PostgreSQL server successfully.");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return conn;
     }
 }
