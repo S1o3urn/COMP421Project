@@ -36,18 +36,39 @@ public class Login {
         }
 
         else {
+
+            String password = "";
+
             //verify claim against database
-            try (PreparedStatement pst = conn.prepareStatement(Ressources.loginCheckSQL);
+            try (PreparedStatement pst = conn.prepareStatement(Ressources.loginCheckSQL + claimedUsername + "'");
                  ResultSet rs = pst.executeQuery()) {
 
                 while (rs.next()) {
 
                     // Fetch password
+                    password = rs.getString(2);
 
                 }
 
             } catch (SQLException ex) {
                 System.out.println(ex.getMessage());
+            }
+
+            if (password == "") {
+                System.out.println("ERROR LOGIN FAILED\tattempt " + trial + " of 3 - Username invalid.\n");
+                authenticate(++trial, conn);
+            }
+
+            else {
+                if (password.equals(claimedPassword)) {
+
+                    // Store username for reference
+                    Ressources.username = claimedUsername;
+                    return true;
+                } else {
+                    System.out.println("ERROR LOGIN FAILED\tattempt " + trial + " of 3 - Password invalid.\n");
+                    authenticate(++trial, conn);
+                }
             }
         }
         return false;

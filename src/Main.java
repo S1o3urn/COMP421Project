@@ -1,6 +1,4 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class Main {
 
@@ -20,22 +18,36 @@ public class Main {
         Main app = new Main();
         Connection conn = app.connectPSQL();
 
-        //Authentication
-        Login.authenticate(0, conn);
+        //Authentication challenge
+        Login.authenticate(1, conn);
 
+        Menu menu = new Menu();
 
-
-
+        // Close connection
+        try {
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /// This method creates a connection object to the database.
     public Connection connectPSQL() {
         Connection conn = null;
+
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            System.err.println("PostgreSQL DataSource unable to load PostgreSQL JDBC Driver");
+            System.exit(1);
+        }
+
         try {
             conn = DriverManager.getConnection(Ressources.url, Ressources.user, Ressources.password);
-            System.out.println("Connected to the PostgreSQL server successfully.");
+            System.out.println("Connected to the PostgreSQL server successfully.\n");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            System.exit(1);
         }
 
         return conn;
