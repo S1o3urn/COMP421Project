@@ -31,6 +31,13 @@ public class Main {
         Connection conn = null;
 
         try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            System.err.println("PostgreSQL DataSource unable to load PostgreSQL JDBC Driver");
+            System.exit(1);
+        }
+
+        try {
             conn = DriverManager.getConnection(Ressources.url, Ressources.user, Ressources.password);
             System.out.println("Connected to the PostgreSQL server successfully.");
         } catch (SQLException e) {
