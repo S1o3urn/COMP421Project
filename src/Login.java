@@ -46,7 +46,7 @@ public class Login {
                 while (rs.next()) {
 
                     // Fetch password
-                    password = rs.getString(1);
+                    password = rs.getString(2);
 
                 }
 
@@ -60,8 +60,14 @@ public class Login {
             }
 
             else {
-                if (password == claimedPassword) {
+                if (password.equals(claimedPassword)) {
+
+                    // Store username for reference
+                    Ressources.username = claimedUsername;
                     return true;
+                } else {
+                    System.out.println("ERROR LOGIN FAILED\tattempt " + trial + " of 3 - Password invalid.\n");
+                    authenticate(++trial, conn);
                 }
             }
         }
