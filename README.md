@@ -5,7 +5,10 @@ P3
 1. Write one stored procedure.
 2. Basic java app with 5 user options. </br>
 Needs to have exit option. </br>
-Error handling.
+Error handling.</br>
+cart: view, modify, purchase</br>
+healthLog: plot, add log </br>
+
 3. 2 full indexes. </br>
 No indexes on pimary or unique constraints. </br>
 Provide rationale to index creation.
