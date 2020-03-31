@@ -11,8 +11,8 @@ public class Main {
                 + "|  |   /  ____\\ \\ |  |\\ \\  |  | \\_/ |  | |  |  |  | \\  \\_/  / | |_|  | \n"
                 + "|__|  /__/     \\_\\|__| \\_\\ |__|     |__| |__|  |__|  \\____ /  |_____/  \n"
                 );
-	    System.out.println("WELCOME TO FARMHUB\n");
-        System.out.println("LOG IN TO PROCEED...\n");
+	    System.out.println("WELCOME TO FARMHUB");
+        System.out.println("LOG IN TO PROCEED...");
 
         //Establish single database connection
         Main app = new Main();
@@ -21,14 +21,12 @@ public class Main {
         //Authentication challenge
         Login.authenticate(1, conn);
 
-        Menu menu = new Menu();
+        //All user actions accomplished through main menu
+        Menu menu = new Menu(conn);
+        menu.mainMenuCommandParser();
 
         // Close connection
-        try {
-            conn.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        app.closeConn(conn);
     }
 
     /// This method creates a connection object to the database.
@@ -51,5 +49,15 @@ public class Main {
         }
 
         return conn;
+    }
+
+
+    public void closeConn(Connection conn) {
+        try {
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
     }
 }
