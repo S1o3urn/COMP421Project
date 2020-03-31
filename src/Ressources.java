@@ -1,5 +1,6 @@
 public class Ressources {
 
+    //TODO implement safer way to store db credentials
     public static final String url = "jdbc:postgresql://comp421.cs.mcgill.ca:5432/cs421";
     public static final String user = "cs421g39";
     public static final String password = "WeHaveChangedOurPassword123!";
