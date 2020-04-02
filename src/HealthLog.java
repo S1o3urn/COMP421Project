@@ -14,32 +14,37 @@ public class HealthLog {
 
     public void healthLogMenu() {
 
-        System.out.println("\n" + Ressources.username + "'s Health Log");
-        System.out.println("-h or help for available commands in HealthLog");
-        System.out.println("Enter command:");
+        boolean status = true;
 
-        action = scanner.nextLine();
+        while (status) {
+            System.out.println("\n" + Ressources.username + "'s Health Log");
+            System.out.println("-h or help for available commands in HealthLog");
+            System.out.println("Enter command:");
 
-        switch (action) {
-            case "-h":
-            case "help":
-                displayAvailableCommands();
-                healthLogMenu();
+            action = scanner.nextLine();
 
-            case "-g":
-            case "generateGraph":
-                plotGraph();
-                healthLogMenu();
+            switch (action) {
+                case "-h":
+                case "help":
+                    displayAvailableCommands();
+                    break;
 
-            case "back":
-                //Relinquish control back to Menu
-                System.out.println("\n" + Ressources.username + "'s menu");
-                break;
+                case "-g":
+                case "generateGraph":
+                    plotGraph();
+                    break;
 
-            default:
-                //TODO implement add log as special command with arugments that need parsing
-                System.out.println("ERROR COMMAND INVALID\t please try again.\n");
-                healthLogMenu();
+                case "back":
+                    //Relinquish control back to Menu
+                    System.out.println("\n" + Ressources.username + "'s menu");
+                    status = false;
+                    break;
+
+                default:
+                    //TODO implement add log as special command with arugments that need parsing
+                    System.out.println("ERROR COMMAND INVALID\t please try again.\n");
+                    break;
+            }
         }
     }
 

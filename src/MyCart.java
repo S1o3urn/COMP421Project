@@ -17,37 +17,42 @@ public class MyCart {
 
     public void cartMenu() {
 
-        System.out.println("\n" + Ressources.username + "'s cart");
-        System.out.println("-h or help for available commands");
-        System.out.println("Enter command:");
+        boolean status = true;
 
-        action = scanner.nextLine();
+        while (status) {
+            System.out.println("\n" + Ressources.username + "'s cart");
+            System.out.println("-h or help for available commands");
+            System.out.println("Enter command:");
 
-        switch (action) {
-            case "-h":
-            case "help":
-                displayAvailableCommands();
-                cartMenu();
+            action = scanner.nextLine();
 
-            case "-v":
-            case "viewCart":
-                listItems();
-                cartMenu();
+            switch (action) {
+                case "-h":
+                case "help":
+                    displayAvailableCommands();
+                    break;
 
-            case "-p":
-            case "purchase":
-                purchaseCart();
-                cartMenu();
+                case "-v":
+                case "viewCart":
+                    listItems();
+                    break;
 
-            case "back":
-                //Relinquish control back to Menu
-                System.out.println("\n" + Ressources.username + "'s menu");
-                break;
+                case "-p":
+                case "purchase":
+                    purchaseCart();
+                    break;
 
-            default:
-                //TODO implement modify cart as special command with arugments that need parsing
-                System.out.println("ERROR COMMAND INVALID\t please try again.\n");
-                cartMenu();
+                case "back":
+                    //Relinquish control back to Menu
+                    System.out.println("\n" + Ressources.username + "'s menu");
+                    status = false;
+                    break;
+
+                default:
+                    //TODO implement modify cart as special command with arugments that need parsing
+                    System.out.println("ERROR COMMAND INVALID\t please try again.\n");
+                    break;
+            }
         }
     }
 

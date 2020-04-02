@@ -16,38 +16,40 @@ public class Menu {
         this.scanner = new Scanner(System.in);
         this.cart = new MyCart(conn, scanner);
         this.log = new HealthLog(conn, scanner);
+        mainMenuCommandParser();
     }
 
 
-    public void mainMenuCommandParser() {
+    private void mainMenuCommandParser() {
 
-        System.out.println("-h or help for available commands in Menu");
-        System.out.println("Enter command:");
+        while (true) {
+            System.out.println("\n-h or help for available commands in Menu");
+            System.out.println("Enter command:");
 
-        // Scanner to parse input
-        Scanner scanner = new Scanner(System.in);
-        action = scanner.nextLine();
+            // Scanner to parse input
+            action = scanner.nextLine();
 
-        switch (action) {
-            case "-h":
-            case "help":
-                displayAvailableCommands();
-                mainMenuCommandParser();
+            switch (action) {
+                case "-h":
+                case "help":
+                    displayAvailableCommands();
+                    break;
 
-            case "cart":
-                cart.cartMenu();
-                mainMenuCommandParser();
+                case "cart":
+                    cart.cartMenu();
+                    break;
 
-            case "healthLog":
-                log.healthLogMenu();
-                mainMenuCommandParser();
+                case "healthLog":
+                    log.healthLogMenu();
+                    break;
 
-            case "exit" :
-                exit();
+                case "exit" :
+                    exit();
 
-            default:
-                System.out.println("ERROR COMMAND INVALID\t please try again.\n");
-                mainMenuCommandParser();
+                default:
+                    System.out.println("ERROR COMMAND INVALID\t please try again.\n");
+                    break;
+            }
         }
     }
 
