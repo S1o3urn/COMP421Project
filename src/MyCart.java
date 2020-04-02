@@ -57,6 +57,7 @@ public class MyCart {
     }
 
     //TODO clear all items in cart and decrement item counts
+    //TODO should add a constraint to remove consumable qty 0 from cart
     private void purchaseCart() {
     }
 
@@ -68,7 +69,7 @@ public class MyCart {
         try (PreparedStatement pst = conn.prepareStatement(Ressources.retrieveCartContentSQL + Ressources.username + "'");
              ResultSet rs = pst.executeQuery()) {
 
-            System.out.println("Row\t\tConsumable_id\t\tConsumable_qty");
+            System.out.println("Item\t\tConsumable_id\t\tConsumable_qty");
 
             while (rs.next()) {
 
