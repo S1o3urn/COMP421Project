@@ -23,10 +23,10 @@ public class Login {
         // Scanner to parse input
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Username:\n");
+        System.out.println("Username:");
         claimedUsername = scanner.nextLine();
 
-        System.out.println("Password:\n");
+        System.out.println("Password:");
         claimedPassword = scanner.nextLine();
 
         // Sanity checks

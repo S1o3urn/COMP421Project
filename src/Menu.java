@@ -5,17 +5,23 @@ public class Menu {
 
     private String action;
     private Connection conn;
+    private Scanner scanner;
+    private MyCart cart;
+    private HealthLog log;
 
     public Menu(Connection conn) {
 
-        System.out.println("Welcome Back " + Ressources.username + "!\n");
+        System.out.println("\nWelcome Back " + Ressources.username + "!");
         this.conn = conn;
+        this.scanner = new Scanner(System.in);
+        this.cart = new MyCart(conn, scanner);
+        this.log = new HealthLog(conn, scanner);
     }
 
 
     public void mainMenuCommandParser() {
 
-        System.out.println("-h or help for available commands");
+        System.out.println("-h or help for available commands in Menu");
         System.out.println("Enter command:");
 
         // Scanner to parse input
@@ -29,12 +35,10 @@ public class Menu {
                 mainMenuCommandParser();
 
             case "cart":
-                MyCart cart = new MyCart(conn, scanner);
                 cart.cartMenu();
                 mainMenuCommandParser();
 
             case "healthLog":
-                HealthLog log = new HealthLog(conn, scanner);
                 log.healthLogMenu();
                 mainMenuCommandParser();
 
@@ -42,14 +46,14 @@ public class Menu {
                 exit();
 
             default:
-                System.out.println("ERROR COMMAND INVALID\t please try again.");
+                System.out.println("ERROR COMMAND INVALID\t please try again.\n");
                 mainMenuCommandParser();
         }
     }
 
     private void displayAvailableCommands() {
-        System.out.println("Available actions:\n");
-        System.out.println("1.command1\t2.command2\t3.command3\t4.command4\thealthLog\texit\n");
+        System.out.println("\nAvailable actions in Menu:");
+        System.out.println("cart\t2.command2\t3.command3\t4.command4\thealthLog\texit");
     }
 
     private void exit() {

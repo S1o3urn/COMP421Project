@@ -12,4 +12,7 @@ public class Ressources {
 
     /// SQL script to fetch password based on username
     public static final String loginCheckSQL = "SELECT username, password FROM cs421g39.accounts WHERE username = '";
+
+    // SQL script to fetch all items in cart
+    public static final String retrieveCartContentSQL = "SELECT consumable_id, consumable_qty FROM cs421g39.cart_contents WHERE username = '";
 }

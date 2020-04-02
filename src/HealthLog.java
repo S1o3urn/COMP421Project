@@ -8,14 +8,14 @@ public class HealthLog {
     private Scanner scanner;
 
     public HealthLog(Connection conn, Scanner scanner) {
-        System.out.println(Ressources.username + "'s Health Log\n");
         this.conn = conn;
         this.scanner = scanner;
     }
 
     public void healthLogMenu() {
 
-        System.out.println("-h or help for available commands");
+        System.out.println("\n" + Ressources.username + "'s Health Log");
+        System.out.println("-h or help for available commands in HealthLog");
         System.out.println("Enter command:");
 
         action = scanner.nextLine();
@@ -32,11 +32,13 @@ public class HealthLog {
                 healthLogMenu();
 
             case "back":
-                //Do nothing, relinquish control back to Menu
+                //Relinquish control back to Menu
+                System.out.println("\n" + Ressources.username + "'s menu");
+                break;
 
             default:
                 //TODO implement add log as special command with arugments that need parsing
-                System.out.println("ERROR COMMAND INVALID\t please try again.");
+                System.out.println("ERROR COMMAND INVALID\t please try again.\n");
                 healthLogMenu();
         }
     }
@@ -46,7 +48,7 @@ public class HealthLog {
     }
 
     private void displayAvailableCommands() {
-        System.out.println("Available actions:\n");
-        System.out.println("generateGraph(-g)\taddLog(-a date weight)back\n");
+        System.out.println("Available actions in HealthLog:");
+        System.out.println("generateGraph(-g)\taddLog(-a date weight)\tback");
     }
 }
