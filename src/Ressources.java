@@ -8,7 +8,9 @@ public class Ressources {
     // Holds the username for reference
     public static String username;
 
-    //Test login with tjiang9 #12345 taken from account table
+    //Test logins:
+    //tjiang9   #12345
+    //cbibb1g   o1PreJwLgWC
 
     /// SQL script to fetch password based on username
     public static final String loginCheckSQL = "SELECT username, password FROM cs421g39.accounts WHERE username = '";
@@ -16,6 +18,12 @@ public class Ressources {
     // SQL script to fetch all items in cart for an user
     public static final String retrieveCartContentSQL = "SELECT consumable_id, consumable_qty FROM cs421g39.cart_contents WHERE username = '";
 
+    // SQL script to fetch sex on username
+    public static final String retrieveSexSQL = "SELECT sex FROM cs421g39.customer_health_logs WHERE username = '";
+
     // SQL script to fetch all health data for an user
     public static final String retrieveUserHealthLogsSQL = "SELECT log_date, height, weight, sex FROM cs421g39.customer_health_logs WHERE username = '";
+
+    // SQL script to insert a healthLog record
+    public static final String insertHealthLogRecordSQL = "INSERT INTO cs421g39.customer_health_logs (username, log_date, height, weight, sex) VALUES(?,?,?,?,?)";
 }

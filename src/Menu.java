@@ -35,10 +35,12 @@ public class Menu {
                     displayAvailableCommands();
                     break;
 
+                case "-c":
                 case "cart":
                     cart.cartMenu();
                     break;
 
+                case "-hl":
                 case "healthLog":
                     log.healthLogMenu();
                     break;
