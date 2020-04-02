@@ -13,4 +13,4 @@ healthLog: plot (weight graph DONE, others ready for testing), add log (ready fo
 No indexes on pimary or unique constraints. </br>
 Provide rationale to index creation.
 4. Export data to CSV
-5. Bonus: matplotlib as previously discussed to health data tracking or GUI (DONE)
+5. Bonus: JFreeChart as previously discussed to health data tracking or GUI (DONE)
