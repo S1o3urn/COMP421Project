@@ -39,7 +39,6 @@ public class HealthLog {
             ListIterator<String> iterator = argumentsList.listIterator();
 
             // Loop through arguments list and populate attributes.
-            while(iterator.hasNext()) {
                 String argument = iterator.next();
                 switch(argument) {
                     case "-h":
@@ -83,13 +82,12 @@ public class HealthLog {
                         }
 
                         //Insert data
-                        // Fetch all user health data
                         try (PreparedStatement statement = conn.prepareStatement(Ressources.insertHealthLogRecordSQL)) {
 
                             statement.setString(1, Ressources.username);
-                            statement.setString(2, date);
-                            statement.setString(3, weight);
-                            statement.setString(4, height);
+                            statement.setDate(2, Date.valueOf(date));
+                            statement.setInt(3, Integer.parseInt(weight));
+                            statement.setInt(4, Integer.parseInt(height));
                             statement.setString(5, sex);
 
                             statement.addBatch();
@@ -111,7 +109,6 @@ public class HealthLog {
                 }
             }
         }
-    }
 
     // Fetch all data concerning a single user.
     private void fetchGraphData(int mode) {

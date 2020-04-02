@@ -57,7 +57,7 @@ public class Menu {
 
     private void displayAvailableCommands() {
         System.out.println("\nAvailable actions in Menu:");
-        System.out.println("cart\t2.command2\t3.command3\t4.command4\thealthLog\texit");
+        System.out.println("[-c|cart]\t[-hl|healthLog]\texit\t[-h|help]");
     }
 
     private void exit() {

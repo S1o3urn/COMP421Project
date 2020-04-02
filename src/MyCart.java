@@ -1,7 +1,7 @@
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ListIterator;
 import java.util.Scanner;
 
 public class MyCart {
@@ -10,11 +10,13 @@ public class MyCart {
     private Connection conn;
     private Scanner scanner;
 
+    // Constructor
     public MyCart(Connection conn, Scanner scanner) {
         this.conn = conn;
         this.scanner = scanner;
     }
 
+    //TODO still needs updating to conform to healthLog
     public void cartMenu() {
 
         boolean status = true;
@@ -26,7 +28,12 @@ public class MyCart {
 
             action = scanner.nextLine();
 
-            switch (action) {
+            // parse input
+            List<String> argumentsList = Arrays.asList(action);
+            ListIterator<String> iterator = argumentsList.listIterator();
+
+            String argument = iterator.next();
+            switch (argument) {
                 case "-h":
                 case "help":
                     displayAvailableCommands();
@@ -36,6 +43,39 @@ public class MyCart {
                 case "viewCart":
                     listItems();
                     break;
+
+                case "-m":
+                case "modify":
+                    String consumable_id = iterator.next();
+                    String new_consumable_qty = iterator.next();
+
+                    if (Integer.parseInt(new_consumable_qty) == 0) {
+                        // Delete record from table
+                        try(PreparedStatement preparedStmt = conn.prepareStatement(Ressources.deleteCartRecordSQL)) {
+
+                            preparedStmt.setInt   (1, Integer.parseInt(consumable_id));
+
+                            preparedStmt.executeUpdate();
+
+                        } catch (SQLException ex) {
+                            System.out.println(ex.getMessage());
+                        }
+                    }
+
+                    // Update record
+                    else {
+                        // Modify qty
+                        try(PreparedStatement preparedStmt = conn.prepareStatement(Ressources.updateCartRecordSQL)) {
+
+                            preparedStmt.setInt   (1, Integer.parseInt(new_consumable_qty));
+                            preparedStmt.setString(2, consumable_id);
+
+                            preparedStmt.executeUpdate();
+
+                        } catch (SQLException ex) {
+                            System.out.println(ex.getMessage());
+                        }
+                    }
 
                 case "-p":
                 case "purchase":
@@ -49,7 +89,6 @@ public class MyCart {
                     break;
 
                 default:
-                    //TODO implement modify cart as special command with arugments that need parsing
                     System.out.println("ERROR COMMAND INVALID\t please try again.\n");
                     break;
             }
@@ -61,7 +100,7 @@ public class MyCart {
     private void purchaseCart() {
     }
 
-    //TODO display all items in cart
+    // Displays all items in cart along with their quantity
     private void listItems() {
 
         int rowCount = 1;
@@ -83,6 +122,7 @@ public class MyCart {
         }
     }
 
+    // User help
     private void displayAvailableCommands() {
         System.out.println("\nAvailable actions in Cart:");
         System.out.println("viewCart(-v)\tmodifyCart(-m itemId qty)\tpurchase(-p)\tback");

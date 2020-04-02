@@ -12,6 +12,8 @@ public class Ressources {
     //tjiang9   #12345
     //cbibb1g   o1PreJwLgWC
 
+
+    //TODO streamline sql style: use ? variables instead of concatenating for injection protection
     /// SQL script to fetch password based on username
     public static final String loginCheckSQL = "SELECT username, password FROM cs421g39.accounts WHERE username = '";
 
@@ -26,4 +28,10 @@ public class Ressources {
 
     // SQL script to insert a healthLog record
     public static final String insertHealthLogRecordSQL = "INSERT INTO cs421g39.customer_health_logs (username, log_date, height, weight, sex) VALUES(?,?,?,?,?)";
+
+    // SQL script to update a cart table record
+    public static final String updateCartRecordSQL = "UPDATE cs421g39.cart_contents SET consumable_qty = ? WHERE consumable_id = ?";
+
+    // SQL script to delete a record from cart table
+    public static final String deleteCartRecordSQL = "DELETE FROM cs421g39.cart_contents WHERE consumable_id = ?";
 }
