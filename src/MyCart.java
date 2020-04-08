@@ -16,7 +16,6 @@ public class MyCart {
         this.scanner = scanner;
     }
 
-    //TODO still needs updating to conform to healthLog
     public void cartMenu() {
 
         boolean status = true;

@@ -195,7 +195,7 @@ public class HealthLog {
                 // Width proportional to number of plot points
                 jpegWidth = 50 * weight.size();
                 jpegHeight = 600;
-                lineChart = new File( "Graphs/WeightGraph.jpeg" );
+                lineChart = new File( "Graphs/HealthGraphs/WeightGraph.jpeg" );
 
                 // Reset Index
                 index = 0;
@@ -223,7 +223,7 @@ public class HealthLog {
                 // Width proportional to number of plot points
                 jpegWidth = 50 * height.size();
                 jpegHeight = 1000;
-                lineChart = new File( "Graphs/HeightGraph.jpeg" );
+                lineChart = new File( "Graphs/HealthGraphs/HeightGraph.jpeg" );
 
                 // Reset index
                 index = 0;
@@ -251,7 +251,7 @@ public class HealthLog {
                 // Width proportional to number of plot points
                 jpegWidth = 50 * height.size();
                 jpegHeight = 1000;
-                lineChart = new File( "Graphs/BmiGraph.jpeg" );
+                lineChart = new File( "Graphs/HealthGraphs/BmiGraph.jpeg" );
 
                 // Reset index
                 index = 0;

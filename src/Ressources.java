@@ -8,6 +8,9 @@ public class Ressources {
     // Holds the username for reference
     public static String username;
 
+    // Holds the application operating mode
+    public static String acocunt_type;
+
     //Test user logins:
     //tjiang9   #12345
     //cbibb1g   o1PreJwLgWC
@@ -18,7 +21,7 @@ public class Ressources {
 
 
     /// SQL script to fetch password based on username
-    public static final String loginCheckSQL = "SELECT username, password FROM cs421g39.accounts WHERE username = ?";
+    public static final String loginCheckSQL = "SELECT username, password, account_status FROM cs421g39.accounts WHERE username = ?";
 
     // SQL script to fetch all items in cart for an user
     public static final String retrieveCartContentSQL = "SELECT consumable_id, consumable_qty FROM cs421g39.cart_contents WHERE username = ?";
@@ -37,4 +40,13 @@ public class Ressources {
 
     // SQL script to delete a record from cart table
     public static final String deleteCartRecordSQL = "DELETE FROM cs421g39.cart_contents WHERE consumable_id = ?";
+
+    // SQL script to get accountsSpendings stored procedure data, used to circumvent stored procedure calling limitations
+    public static final String callAccountsSpendingsStoredProcedureSQL = "SELECT * FROM cs421g39.\"accountsSpendings\"";
+
+    // SQL script to get popular_discounted_items stored procedure data, used to circumvent stored procedure calling limitations
+    public static final String callTopDiscountedItemsStoredProcedureSQL = "SELECT * FROM cs421g39.\"popular_discounted_items\"";
+
+    // SQL script to get top_ingredients stored procedure data, used to circumvent stored procedure calling limitations
+    public static final String callTopIngredientsStoredProcedureSQL = "SELECT * FROM cs421g39.\"top_ingredients\"";
 }
