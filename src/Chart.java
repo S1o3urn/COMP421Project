@@ -152,6 +152,7 @@ public class Chart {
         jpegWidth = 30 * count;
         jpegHeight = 600;
         lineChart = new File( "Graphs/Management/AccountsSpendingsGraph.jpeg" );
+        System.out.println("Chart can be found in: " + System.getProperty("user.dir") + "Graphs/Management/AccountsSpendingsGraph.jpeg");
 
         // Reset Index
         index = 0;
@@ -213,6 +214,7 @@ public class Chart {
         jpegWidth = 30 * count;
         jpegHeight = 600;
         lineChart = new File( "Graphs/Management/TopDiscountedItemsGraph.jpeg" );
+        System.out.println("Chart can be found in: " + System.getProperty("user.dir") + "\\Graphs\\Management\\TopDiscountedItemsGraph.jpeg" );
 
         // Reset Index
         index = 0;
@@ -275,6 +277,7 @@ public class Chart {
         jpegWidth = 30 * count;
         jpegHeight = 600;
         lineChart = new File( "Graphs/Management/TopIngredientsGraph.jpeg" );
+        System.out.println("Chart can be found in: " + System.getProperty("user.dir") + "\\Graphs\\Management\\TopIngredientsGraph.jpeg");
 
         // Reset Index
         index = 0;
@@ -286,7 +289,6 @@ public class Chart {
         }
     }
 
-    //TODO update help with available actions
     // User help
     private void displayAvailableCommands() {
         System.out.println("\nAvailable actions in Cart:");

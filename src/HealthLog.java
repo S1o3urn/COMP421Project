@@ -196,6 +196,7 @@ public class HealthLog {
                 jpegWidth = 50 * weight.size();
                 jpegHeight = 600;
                 lineChart = new File( "Graphs/HealthGraphs/WeightGraph.jpeg" );
+                System.out.println("Chart can be found in: " + System.getProperty("user.dir") + "Graphs/HealthGraphs/WeightGraph.jpeg");
 
                 // Reset Index
                 index = 0;
@@ -224,6 +225,7 @@ public class HealthLog {
                 jpegWidth = 50 * height.size();
                 jpegHeight = 1000;
                 lineChart = new File( "Graphs/HealthGraphs/HeightGraph.jpeg" );
+                System.out.println("Chart can be found in: " + System.getProperty("user.dir") + "Graphs/HealthGraphs/HeightGraph.jpeg");
 
                 // Reset index
                 index = 0;
@@ -252,6 +254,7 @@ public class HealthLog {
                 jpegWidth = 50 * height.size();
                 jpegHeight = 1000;
                 lineChart = new File( "Graphs/HealthGraphs/BmiGraph.jpeg" );
+                System.out.println("Chart can be found in: " + System.getProperty("user.dir") + "Graphs/HealthGraphs/BmiGraph.jpeg");
 
                 // Reset index
                 index = 0;
