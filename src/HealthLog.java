@@ -119,8 +119,11 @@ public class HealthLog {
         String sex = "";
 
         // Fetch all user health data
-        try (PreparedStatement pst = conn.prepareStatement(Ressources.retrieveUserHealthLogsSQL + Ressources.username + "'");
-             ResultSet rs = pst.executeQuery()) {
+        try (PreparedStatement pst = conn.prepareStatement(Ressources.retrieveUserHealthLogsSQL)) {
+
+            pst.setString(1, Ressources.username);
+
+            ResultSet rs = pst.executeQuery();
 
             while (rs.next()) {
 
@@ -144,8 +147,11 @@ public class HealthLog {
 
         String sex = "";
 
-        try (PreparedStatement pst = conn.prepareStatement(Ressources.retrieveSexSQL + Ressources.username + "'");
-             ResultSet rs = pst.executeQuery()) {
+        try (PreparedStatement pst = conn.prepareStatement(Ressources.retrieveSexSQL)) {
+
+            pst.setString(1, Ressources.username);
+
+            ResultSet rs = pst.executeQuery();
 
             while (rs.next()) {
 

@@ -105,8 +105,11 @@ public class MyCart {
 
         int rowCount = 1;
 
-        try (PreparedStatement pst = conn.prepareStatement(Ressources.retrieveCartContentSQL + Ressources.username + "'");
-             ResultSet rs = pst.executeQuery()) {
+        try (PreparedStatement pst = conn.prepareStatement(Ressources.retrieveCartContentSQL)) {
+
+            pst.setString(1, Ressources.username);
+
+            ResultSet rs = pst.executeQuery();
 
             System.out.println("Item\t\tConsumable_id\t\tConsumable_qty");
 

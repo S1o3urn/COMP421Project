@@ -40,8 +40,9 @@ public class Login {
             String password = "";
 
             //verify claim against database
-            try (PreparedStatement pst = conn.prepareStatement(Ressources.loginCheckSQL + claimedUsername + "'");
-                 ResultSet rs = pst.executeQuery()) {
+            try (PreparedStatement pst = conn.prepareStatement(Ressources.loginCheckSQL)) {
+                pst.setString(1, claimedUsername);
+                ResultSet rs = pst.executeQuery();
 
                 while (rs.next()) {
 
