@@ -1,5 +1,13 @@
-import java.sql.Connection;
-import java.util.Scanner;
+import java.io.File;
+import java.io.IOException;
+import java.sql.*;
+import java.sql.Date;
+import java.util.*;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartUtilities;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 public class HealthLog {
 
@@ -7,46 +15,263 @@ public class HealthLog {
     private Connection conn;
     private Scanner scanner;
 
+    // Constructor
     public HealthLog(Connection conn, Scanner scanner) {
-        System.out.println(Ressources.username + "'s Health Log\n");
         this.conn = conn;
         this.scanner = scanner;
     }
 
+    // Health Log menu. Parses user inputs and calls appropriate methods.
     public void healthLogMenu() {
 
-        System.out.println("-h or help for available commands");
-        System.out.println("Enter command:");
+        //exit for healthLog menu
+        boolean status = true;
 
-        action = scanner.nextLine();
+        while (status) {
+            System.out.println("\n" + Ressources.username + "'s Health Log");
+            System.out.println("-h or help for available commands in HealthLog");
+            System.out.println("Enter command:");
 
-        switch (action) {
-            case "-h":
-            case "help":
-                displayAvailableCommands();
-                healthLogMenu();
+            action = scanner.nextLine();
 
-            case "-g":
-            case "generateGraph":
-                plotGraph();
-                healthLogMenu();
+            // parse input
+            List<String> argumentsList = Arrays.asList(action);
+            ListIterator<String> iterator = argumentsList.listIterator();
 
-            case "back":
-                //Do nothing, relinquish control back to Menu
+            // Loop through arguments list and populate attributes.
+                String argument = iterator.next();
+                switch(argument) {
+                    case "-h":
+                    case "help":
+                        displayAvailableCommands();
+                        break;
 
-            default:
-                //TODO implement add log as special command with arugments that need parsing
-                System.out.println("ERROR COMMAND INVALID\t please try again.");
-                healthLogMenu();
+                    case "-g":
+                    case "generateGraph":
+                        String specifiedGraph = iterator.next();
+                        switch(specifiedGraph) {
+                            case "-w":
+                            case "weight":
+                                fetchGraphData(1);
+                                break;
+
+                            case "-h":
+                            case "height":
+                                fetchGraphData(2);
+                                break;
+
+                            case "b":
+                            case "bmi":
+                                fetchGraphData(3);
+                                break;
+                        }
+                        break;
+
+                    case "-a":
+                    case "addPlot":
+                        String date = iterator.next();
+                        String weight = iterator.next();
+                        String height = iterator.next();
+
+                        // Allows for optional sex input
+                        String sex;
+                        try{
+                            sex = iterator.next();
+                        } catch(Exception e) {
+                            sex = fetchSex();
+                        }
+
+                        //Insert data
+                        try (PreparedStatement statement = conn.prepareStatement(Ressources.insertHealthLogRecordSQL)) {
+
+                            statement.setString(1, Ressources.username);
+                            statement.setDate(2, Date.valueOf(date));
+                            statement.setInt(3, Integer.parseInt(weight));
+                            statement.setInt(4, Integer.parseInt(height));
+                            statement.setString(5, sex);
+
+                            statement.addBatch();
+                            statement.executeBatch();
+
+                        } catch (SQLException ex) {
+                            System.out.println(ex.getMessage());
+                        }
+
+                    case "back":
+                        //Relinquish control back to Menu
+                        System.out.println("\n" + Ressources.username + "'s menu");
+                        status = false;
+                        break;
+
+                    default:
+                        System.out.println("ERROR COMMAND INVALID\t please try again.\n");
+                        break;
+                }
+            }
+        }
+
+    // Fetch all data concerning a single user.
+    private void fetchGraphData(int mode) {
+
+        List<Date> log_date = new ArrayList<>();
+        List<Integer> height = new ArrayList<>();
+        List<Integer> weight = new ArrayList<>();
+        String sex = "";
+
+        // Fetch all user health data
+        try (PreparedStatement pst = conn.prepareStatement(Ressources.retrieveUserHealthLogsSQL)) {
+
+            pst.setString(1, Ressources.username);
+
+            ResultSet rs = pst.executeQuery();
+
+            while (rs.next()) {
+
+                // Fetch all columns
+                log_date.add(rs.getDate(1));
+                height.add(rs.getInt(2));
+                weight.add(rs.getInt(3));
+                sex = rs.getString(4);
+            }
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+
+        // Create desired graph
+        plotGraph(mode, log_date, height, weight, sex);
+    }
+
+    // Return the last sex plot point data
+    private String fetchSex() {
+
+        String sex = "";
+
+        try (PreparedStatement pst = conn.prepareStatement(Ressources.retrieveSexSQL)) {
+
+            pst.setString(1, Ressources.username);
+
+            ResultSet rs = pst.executeQuery();
+
+            while (rs.next()) {
+
+                // Fetch all columns
+                sex = rs.getString(1);
+            }
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return sex;
+    }
+
+    // Plots graphs as jpeg for specified mode
+    private void plotGraph(int mode, List<Date> log_date, List<Integer> height, List<Integer> weight, String sex) {
+        // Weight over time graph of all log dates
+        DefaultCategoryDataset line_chart_dataset = new DefaultCategoryDataset();
+
+        int index;
+        JFreeChart lineChartObject;
+        int jpegWidth;
+        int jpegHeight;
+        File lineChart;
+
+        switch (mode) {
+
+            // Weight
+            case 1:
+                index = 0;
+                while (log_date.size() > index)
+                {
+                    line_chart_dataset.addValue( weight.get(index++), "weight" , log_date.get(index++) );
+                }
+
+                lineChartObject = ChartFactory.createLineChart(
+                        "Weight over Log Dates","Log Date",
+                        "Weight (kg)",
+                        line_chart_dataset,PlotOrientation.VERTICAL,
+                        true,true,false);
+
+                // Width proportional to number of plot points
+                jpegWidth = 50 * weight.size();
+                jpegHeight = 600;
+                lineChart = new File( "Graphs/HealthGraphs/WeightGraph.jpeg" );
+                System.out.println("Chart can be found in: " + System.getProperty("user.dir") + "Graphs/HealthGraphs/WeightGraph.jpeg");
+
+                // Reset Index
+                index = 0;
+
+                try {
+                    ChartUtilities.saveChartAsJPEG(lineChart ,lineChartObject, jpegWidth ,jpegHeight);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            // Height
+            case 2:
+                index = 0;
+                while (log_date.size() > index)
+                {
+                    line_chart_dataset.addValue( weight.get(index++), "weight" , log_date.get(index++) );
+                }
+
+                lineChartObject = ChartFactory.createLineChart(
+                        "Height over Log Dates","Log Date",
+                        "Height (cm)",
+                        line_chart_dataset,PlotOrientation.VERTICAL,
+                        true,true,false);
+
+                // Width proportional to number of plot points
+                jpegWidth = 50 * height.size();
+                jpegHeight = 1000;
+                lineChart = new File( "Graphs/HealthGraphs/HeightGraph.jpeg" );
+                System.out.println("Chart can be found in: " + System.getProperty("user.dir") + "Graphs/HealthGraphs/HeightGraph.jpeg");
+
+                // Reset index
+                index = 0;
+
+                try {
+                    ChartUtilities.saveChartAsJPEG(lineChart ,lineChartObject, jpegWidth ,jpegHeight);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            // BMI
+            case 3:
+                index = 0;
+                while (log_date.size() > index)
+                {
+                    line_chart_dataset.addValue( weight.get(index++)/Math.pow((height.get(index++)/100),2), "bmi" , log_date.get(index++) );
+                }
+
+                lineChartObject = ChartFactory.createLineChart(
+                        "bmi over Log Dates","Log Date",
+                        "Bmi (kg/m*m)",
+                        line_chart_dataset,PlotOrientation.VERTICAL,
+                        true,true,false);
+
+                // Width proportional to number of plot points
+                jpegWidth = 50 * height.size();
+                jpegHeight = 1000;
+                lineChart = new File( "Graphs/HealthGraphs/BmiGraph.jpeg" );
+                System.out.println("Chart can be found in: " + System.getProperty("user.dir") + "Graphs/HealthGraphs/BmiGraph.jpeg");
+
+                // Reset index
+                index = 0;
+
+                try {
+                    ChartUtilities.saveChartAsJPEG(lineChart ,lineChartObject, jpegWidth ,jpegHeight);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
         }
     }
 
-    //TODO get data as csv and plot with matplotlib, export as png to a file location or open directly
-    private void plotGraph() {
-    }
-
+    // Use help
     private void displayAvailableCommands() {
-        System.out.println("Available actions:\n");
-        System.out.println("generateGraph(-g)\taddLog(-a date weight)back\n");
+        System.out.println("Available actions in HealthLog:");
+        System.out.println("[-g|generateGraph] mode\tmode: [-w|weight],[-h|height],[-b|bmi])");
+        System.out.println("[-a|addLog] date weight height sex(optional)\t(date: [YYYY-MM-DD])\t weight: kg\theight: cm\t sex: [female|male]");
+        System.out.print("back");
     }
 }

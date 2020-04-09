@@ -23,10 +23,10 @@ public class Login {
         // Scanner to parse input
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Username:\n");
+        System.out.println("Username:");
         claimedUsername = scanner.nextLine();
 
-        System.out.println("Password:\n");
+        System.out.println("Password:");
         claimedPassword = scanner.nextLine();
 
         // Sanity checks
@@ -38,15 +38,18 @@ public class Login {
         else {
 
             String password = "";
+            String mode = "";
 
             //verify claim against database
-            try (PreparedStatement pst = conn.prepareStatement(Ressources.loginCheckSQL + claimedUsername + "'");
-                 ResultSet rs = pst.executeQuery()) {
+            try (PreparedStatement pst = conn.prepareStatement(Ressources.loginCheckSQL)) {
+                pst.setString(1, claimedUsername);
+                ResultSet rs = pst.executeQuery();
 
                 while (rs.next()) {
 
-                    // Fetch password
+                    // Fetch password and account_status
                     password = rs.getString(2);
+                    mode = rs.getString(3);
 
                 }
 
@@ -64,6 +67,9 @@ public class Login {
 
                     // Store username for reference
                     Ressources.username = claimedUsername;
+
+                    // Store account_type to display appropriate menu
+                    Ressources.acocunt_type = mode;
                     return true;
                 } else {
                     System.out.println("ERROR LOGIN FAILED\tattempt " + trial + " of 3 - Password invalid.\n");

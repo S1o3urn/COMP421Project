@@ -23,7 +23,6 @@ public class Main {
 
         //All user actions accomplished through main menu
         Menu menu = new Menu(conn);
-        menu.mainMenuCommandParser();
 
         // Close connection
         app.closeConn(conn);
