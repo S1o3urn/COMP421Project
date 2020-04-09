@@ -5,51 +5,101 @@ public class Menu {
 
     private String action;
     private Connection conn;
+    private Scanner scanner;
+    private MyCart cart;
+    private HealthLog log;
+    private Chart chart;
 
     public Menu(Connection conn) {
 
-        System.out.println("Welcome Back " + Ressources.username + "!\n");
+        System.out.println("\nWelcome Back " + Ressources.username + "!");
+        System.out.println("Account status: " + Ressources.acocunt_type);
         this.conn = conn;
+        this.scanner = new Scanner(System.in);
+        this.cart = new MyCart(conn, scanner);
+        this.log = new HealthLog(conn, scanner);
+        this.chart = new Chart(conn, scanner);
+        mainMenuCommandParser();
     }
 
 
-    public void mainMenuCommandParser() {
+    private void mainMenuCommandParser() {
 
-        System.out.println("-h or help for available commands");
-        System.out.println("Enter command:");
+        if(Ressources.acocunt_type.equals("admin")) {
 
-        // Scanner to parse input
-        Scanner scanner = new Scanner(System.in);
-        action = scanner.nextLine();
+            while (true) {
+                System.out.println("\n-h or help for available commands in Menu");
+                System.out.println("Enter command:");
 
-        switch (action) {
-            case "-h":
-            case "help":
-                displayAvailableCommands();
-                mainMenuCommandParser();
+                // Scanner to parse input
+                action = scanner.nextLine();
 
-            case "cart":
-                MyCart cart = new MyCart(conn, scanner);
-                cart.cartMenu();
-                mainMenuCommandParser();
+                switch (action) {
+                    case "-h":
+                    case "help":
+                        displayAvailableCommands(Ressources.acocunt_type);
+                        break;
 
-            case "healthLog":
-                HealthLog log = new HealthLog(conn, scanner);
-                log.healthLogMenu();
-                mainMenuCommandParser();
+                    case "-c":
+                    case "chart":
+                        chart.chartMenu();
+                        break;
 
-            case "exit" :
-                exit();
+                    case "exit":
+                        exit();
 
-            default:
-                System.out.println("ERROR COMMAND INVALID\t please try again.");
-                mainMenuCommandParser();
+                    default:
+                        System.out.println("ERROR COMMAND INVALID\t please try again.\n");
+                        break;
+                }
+            }
+        } else if (Ressources.acocunt_type.equals("active")) {
+
+            while (true) {
+                System.out.println("\n-h or help for available commands in Menu");
+                System.out.println("Enter command:");
+
+                // Scanner to parse input
+                action = scanner.nextLine();
+
+                switch (action) {
+                    case "-h":
+                    case "help":
+                        displayAvailableCommands(Ressources.acocunt_type);
+                        break;
+
+                    case "-c":
+                    case "cart":
+                        cart.cartMenu();
+                        break;
+
+                    case "-hl":
+                    case "healthLog":
+                        log.healthLogMenu();
+                        break;
+
+                    case "exit":
+                        exit();
+
+                    default:
+                        System.out.println("ERROR COMMAND INVALID\t please try again.\n");
+                        break;
+                }
+            }
+        }
+            else {
+            System.out.println("ERROR ACCOUNT TYPE: user's account might be disabled.");
+            System.out.println("Shutting down application.");
         }
     }
 
-    private void displayAvailableCommands() {
-        System.out.println("Available actions:\n");
-        System.out.println("1.command1\t2.command2\t3.command3\t4.command4\thealthLog\texit\n");
+    private void displayAvailableCommands(String mode) {
+        System.out.println("\nAvailable actions in Menu:");
+        if (mode.equals("admin")) {
+            System.out.println("[-c|chart]\texit\t[-h|help]");
+        } else{
+            System.out.println("[-c|cart]\t[-hl|healthLog]\texit\t[-h|help]");
+        }
     }
 
     private void exit() {
