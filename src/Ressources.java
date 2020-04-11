@@ -49,4 +49,7 @@ public class Ressources {
 
     // SQL script to get top_ingredients stored procedure data, used to circumvent stored procedure calling limitations
     public static final String callTopIngredientsStoredProcedureSQL = "SELECT * FROM cs421g39.\"top_ingredients\"";
+
+    //SQL to get list of consumables names
+    public static final String listconsumablesnameSQL = "SELECT consumable_name FROM consumables ORDER BY consumable_name ASC";
 }
