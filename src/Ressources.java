@@ -1,3 +1,7 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
 public class Ressources {
 
     //TODO implement safer way to store db credentials
@@ -17,8 +21,6 @@ public class Ressources {
 
     //Test admin login for statistics charts:
     //admin     admin2020
-    //TODO: create admin account to test stats graphs
-
 
     /// SQL script to fetch password based on username
     public static final String loginCheckSQL = "SELECT username, password, account_status FROM cs421g39.accounts WHERE username = ?";
@@ -50,6 +52,40 @@ public class Ressources {
     // SQL script to get top_ingredients stored procedure data, used to circumvent stored procedure calling limitations
     public static final String callTopIngredientsStoredProcedureSQL = "SELECT * FROM cs421g39.\"top_ingredients\"";
 
-    //SQL to get list of consumables names
+    // SQL to get list of consumables names
     public static final String listconsumablesnameSQL = "SELECT consumable_name FROM consumables ORDER BY consumable_name ASC";
+
+
+    /// This method creates a connection object to the database.
+    public static Connection connectPSQL() {
+        Connection conn = null;
+
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            System.err.println("PostgreSQL DataSource unable to load PostgreSQL JDBC Driver");
+            System.exit(1);
+        }
+
+        try {
+            conn = DriverManager.getConnection(Ressources.url, Ressources.user, Ressources.password);
+            System.out.println("Connected to the PostgreSQL server successfully.\n");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            System.exit(1);
+        }
+
+        return conn;
+    }
+
+    // Closes a connection.
+    public static Connection closeConn(Connection conn) {
+        try {
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+        return null;
+    }
 }

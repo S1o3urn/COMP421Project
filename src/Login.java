@@ -9,8 +9,9 @@ public class Login {
     // Claimed credentials to process login
     private static String claimedUsername;
     private static String claimedPassword;
+    private static Connection conn;
 
-    public static Boolean authenticate(int trial, Connection conn) {
+    public static Boolean authenticate(int trial) {
 
         claimedUsername = "";
         claimedPassword = "";
@@ -35,7 +36,7 @@ public class Login {
         // Sanity checks
         if (claimedUsername == "" || claimedPassword == "") {
             System.out.println("ERROR LOGIN FAILED\tattempt " + trial + " of 3 - Username or Password blank.\n");
-            authenticate(++trial, conn);
+            authenticate(++trial);
         }
 
         else {
@@ -44,6 +45,7 @@ public class Login {
             String mode = "";
 
             //verify claim against database
+            conn = Ressources.connectPSQL();
             try (PreparedStatement pst = conn.prepareStatement(Ressources.loginCheckSQL)) {
                 pst.setString(1, claimedUsername);
                 ResultSet rs = pst.executeQuery();
@@ -59,10 +61,11 @@ public class Login {
             } catch (SQLException ex) {
                 System.out.println(ex.getMessage());
             }
+            conn = Ressources.closeConn(conn);
 
             if (password == "") {
                 System.out.println("ERROR LOGIN FAILED\tattempt " + trial + " of 3 - Username invalid.\n");
-                authenticate(++trial, conn);
+                authenticate(++trial);
             }
 
             else {
@@ -76,7 +79,7 @@ public class Login {
                     return true;
                 } else {
                     System.out.println("ERROR LOGIN FAILED\tattempt " + trial + " of 3 - Password invalid.\n");
-                    authenticate(++trial, conn);
+                    authenticate(++trial);
                 }
             }
         }

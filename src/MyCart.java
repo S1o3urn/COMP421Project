@@ -6,16 +6,16 @@ import java.util.Scanner;
 
 public class MyCart {
 
+    private static Connection conn;
     private String action;
-    private Connection conn;
     private Scanner scanner;
 
     // Constructor
-    public MyCart(Connection conn, Scanner scanner) {
-        this.conn = conn;
+    public MyCart(Scanner scanner) {
         this.scanner = scanner;
     }
 
+    // Handles user cart inputs
     public void cartMenu() {
 
         boolean status = true;
@@ -50,6 +50,7 @@ public class MyCart {
 
                     if (Integer.parseInt(new_consumable_qty) == 0) {
                         // Delete record from table
+                        conn = Ressources.connectPSQL();
                         try(PreparedStatement preparedStmt = conn.prepareStatement(Ressources.deleteCartRecordSQL)) {
 
                             preparedStmt.setInt   (1, Integer.parseInt(consumable_id));
@@ -59,11 +60,13 @@ public class MyCart {
                         } catch (SQLException ex) {
                             System.out.println(ex.getMessage());
                         }
+                        conn = Ressources.closeConn(conn);
                     }
 
                     // Update record
                     else {
                         // Modify qty
+                        conn = Ressources.connectPSQL();
                         try(PreparedStatement preparedStmt = conn.prepareStatement(Ressources.updateCartRecordSQL)) {
 
                             preparedStmt.setInt   (1, Integer.parseInt(new_consumable_qty));
@@ -74,6 +77,7 @@ public class MyCart {
                         } catch (SQLException ex) {
                             System.out.println(ex.getMessage());
                         }
+                        conn = Ressources.closeConn(conn);
                     }
 
                 case "-p":
@@ -104,16 +108,14 @@ public class MyCart {
 
         int rowCount = 1;
 
+        conn = Ressources.connectPSQL();
         try (PreparedStatement pst = conn.prepareStatement(Ressources.retrieveCartContentSQL)) {
-
             pst.setString(1, Ressources.username);
-
             ResultSet rs = pst.executeQuery();
 
             System.out.println("Item\t\tConsumable_id\t\tConsumable_qty");
 
             while (rs.next()) {
-
                 // Fetch all columns
                 System.out.println(rowCount + "." + "\t\t" + rs.getString(1) + "\t\t\t\t\t" + rs.getInt(2));
                 rowCount++;
@@ -122,6 +124,7 @@ public class MyCart {
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
+        conn = Ressources.closeConn(conn);
     }
 
     // User help

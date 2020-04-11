@@ -12,13 +12,12 @@ import java.util.*;
 
 public class Chart {
 
+    private static Connection conn;
     private String action;
-    private Connection conn;
     private Scanner scanner;
 
     // Constructor
-    public Chart(Connection conn, Scanner scanner) {
-        this.conn = conn;
+    public Chart(Scanner scanner) {
         this.scanner = scanner;
     }
 
@@ -107,6 +106,7 @@ public class Chart {
         List<Integer> amount = new ArrayList<>();
 
         // Fetch all user health data
+        conn = Ressources.connectPSQL();
         try (PreparedStatement pst = conn.prepareStatement(Ressources.callAccountsSpendingsStoredProcedureSQL)) {
 
             ResultSet rs = pst.executeQuery();
@@ -121,6 +121,7 @@ public class Chart {
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
+        conn = Ressources.closeConn(conn);
 
         DefaultCategoryDataset chart_dataset = new DefaultCategoryDataset();
 
@@ -174,6 +175,7 @@ public class Chart {
         List<Integer> sum = new ArrayList<>();
 
         // Fetch all user health data
+        conn = Ressources.connectPSQL();
         try (PreparedStatement pst = conn.prepareStatement(Ressources.callTopDiscountedItemsStoredProcedureSQL)) {
 
             ResultSet rs = pst.executeQuery();
@@ -188,6 +190,7 @@ public class Chart {
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
+        conn = Ressources.closeConn(conn);
 
         DefaultCategoryDataset chart_dataset = new DefaultCategoryDataset();
 
@@ -242,6 +245,7 @@ public class Chart {
         List<Integer> qty = new ArrayList<>();
 
         // Fetch all user health data
+        conn = Ressources.connectPSQL();
         try (PreparedStatement pst = conn.prepareStatement(Ressources.callTopIngredientsStoredProcedureSQL)) {
 
             ResultSet rs = pst.executeQuery();
@@ -256,6 +260,7 @@ public class Chart {
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
+        conn = Ressources.closeConn(conn);
 
         DefaultCategoryDataset chart_dataset = new DefaultCategoryDataset();
 
