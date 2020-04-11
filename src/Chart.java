@@ -153,12 +153,17 @@ public class Chart {
         jpegHeight = 600;
         lineChart = new File( "Graphs/Management/AccountsSpendingsGraph.jpeg" );
         System.out.println("Chart can be found in: " + System.getProperty("user.dir") + "Graphs/Management/AccountsSpendingsGraph.jpeg");
-
+        File testDir = new File (System.getProperty("user.dir") + "Graphs/Management");
         // Reset Index
         index = 0;
 
         try {
-            ChartUtilities.saveChartAsJPEG(lineChart ,lineChartObject, jpegWidth ,jpegHeight);
+            if(testDir.exists()) {
+                ChartUtilities.saveChartAsJPEG(lineChart, lineChartObject, jpegWidth, jpegHeight);
+            }else{
+                new File("Graphs/Management").mkdirs();
+                ChartUtilities.saveChartAsJPEG(lineChart, lineChartObject, jpegWidth, jpegHeight);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -215,12 +220,17 @@ public class Chart {
         jpegHeight = 600;
         lineChart = new File( "Graphs/Management/TopDiscountedItemsGraph.jpeg" );
         System.out.println("Chart can be found in: " + System.getProperty("user.dir") + "\\Graphs\\Management\\TopDiscountedItemsGraph.jpeg" );
-
+        File testDir = new File (System.getProperty("user.dir") + "Graphs/Management");
         // Reset Index
         index = 0;
 
         try {
-            ChartUtilities.saveChartAsJPEG(lineChart ,lineChartObject, jpegWidth ,jpegHeight);
+            if(testDir.exists()) {
+                ChartUtilities.saveChartAsJPEG(lineChart, lineChartObject, jpegWidth, jpegHeight);
+            }else{
+                new File("Graphs/Management").mkdirs();
+                ChartUtilities.saveChartAsJPEG(lineChart, lineChartObject, jpegWidth, jpegHeight);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -278,12 +288,17 @@ public class Chart {
         jpegHeight = 600;
         lineChart = new File( "Graphs/Management/TopIngredientsGraph.jpeg" );
         System.out.println("Chart can be found in: " + System.getProperty("user.dir") + "\\Graphs\\Management\\TopIngredientsGraph.jpeg");
-
+        File testDir = new File (System.getProperty("user.dir") + "Graphs/Management");
         // Reset Index
         index = 0;
 
         try {
-            ChartUtilities.saveChartAsJPEG(lineChart ,lineChartObject, jpegWidth ,jpegHeight);
+            if(testDir.exists()) {
+                ChartUtilities.saveChartAsJPEG(lineChart, lineChartObject, jpegWidth, jpegHeight);
+            }else{
+                new File("Graphs/Management").mkdirs();
+                ChartUtilities.saveChartAsJPEG(lineChart, lineChartObject, jpegWidth, jpegHeight);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
