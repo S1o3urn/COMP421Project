@@ -17,7 +17,10 @@ public class Login {
 
         // 3 login trial condition
         if (trial > 3) {
-            return false;
+            //return false;
+           System.out.println("Too many login attempts.");
+           System.out.println("Exiting...");
+           System.exit(1);
         }
 
         // Scanner to parse input
