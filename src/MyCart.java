@@ -26,9 +26,10 @@ public class MyCart {
             System.out.println("Enter command:");
 
             action = scanner.nextLine();
+            String[] actionTokens = action.split(" ");
 
             // parse input
-            List<String> argumentsList = Arrays.asList(action);
+            List<String> argumentsList = Arrays.asList(actionTokens);
             ListIterator<String> iterator = argumentsList.listIterator();
 
             String argument = iterator.next();
@@ -85,6 +86,7 @@ public class MyCart {
                                 isNewConsumable = 1;
                             }
 
+                            rs.close();
                         } catch (SQLException ex) {
                             System.out.println(ex.getMessage());
                         }
@@ -170,6 +172,7 @@ public class MyCart {
                 rowCount++;
             }
 
+            rs.close();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }

@@ -3,7 +3,6 @@ import java.util.Scanner;
 
 public class Menu {
 
-    private static Connection conn;
     private String action;
     private Scanner scanner;
     private MyCart cart;

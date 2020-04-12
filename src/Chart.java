@@ -118,6 +118,7 @@ public class Chart {
                 amount.add(rs.getInt(2));
             }
 
+            rs.close();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
@@ -187,6 +188,7 @@ public class Chart {
                 sum.add(rs.getInt(2));
             }
 
+            rs.close();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
@@ -257,6 +259,7 @@ public class Chart {
                 qty.add(rs.getInt(2));
             }
 
+            rs.close();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }

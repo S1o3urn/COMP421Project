@@ -57,7 +57,7 @@ public class Login {
                     mode = rs.getString(3);
 
                 }
-
+                rs.close();
             } catch (SQLException ex) {
                 System.out.println(ex.getMessage());
             }

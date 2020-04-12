@@ -135,6 +135,7 @@ public class HealthLog {
                 sex = rs.getString(4);
             }
 
+            rs.close();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
@@ -161,6 +162,7 @@ public class HealthLog {
                 sex = rs.getString(1);
             }
 
+            rs.close();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
