@@ -12,7 +12,9 @@ public class Main {
                 + "|__|  /__/     \\_\\|__| \\_\\ |__|     |__| |__|  |__|  \\____ /  |_____/  \n"
                 );
 	    System.out.println("WELCOME TO FARMHUB");
-        System.out.println("LOG IN TO PROCEED...");
+        System.out.println("LOG IN OR SIGN UP TO PROCEED...");
+
+        while(!Login.createAccount());
 
         //Authentication challenge
         Login.authenticate(1);

@@ -278,6 +278,6 @@ public class HealthLog {
         System.out.println("Available actions in HealthLog:");
         System.out.println("[-g|generateGraph] mode\tmode: [-w|weight],[-h|height],[-b|bmi])");
         System.out.println("[-a|addLog] date weight height sex(optional)\t(date: [YYYY-MM-DD])\t weight: kg\theight: cm\t sex: [female|male]");
-        System.out.print("back");
+        System.out.println("back");
     }
 }
