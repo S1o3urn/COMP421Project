@@ -1,7 +1,14 @@
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.CategoryAxis;
+import org.jfree.chart.axis.CategoryLabelPositions;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.axis.ValueAxis;
+import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
+
+import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 import java.io.File;
@@ -151,6 +158,10 @@ public class Chart {
                 chart_dataset, PlotOrientation.VERTICAL,
                 true,true,false);
 
+        CategoryPlot plot = (CategoryPlot) lineChartObject.getPlot();
+        CategoryAxis domainAxis = plot.getDomainAxis();
+        domainAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
+
         // Width proportional to number of plot points
         jpegWidth = 30 * count;
         jpegHeight = 600;
@@ -293,6 +304,10 @@ public class Chart {
                 "Quantity",
                 chart_dataset, PlotOrientation.VERTICAL,
                 true,true,false);
+
+        CategoryPlot plot = (CategoryPlot) lineChartObject.getPlot();
+        CategoryAxis domainAxis = plot.getDomainAxis();
+        domainAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
 
         // Width proportional to number of plot points
         jpegWidth = 30 * count;
