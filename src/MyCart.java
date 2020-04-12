@@ -136,16 +136,16 @@ public class MyCart {
                     purchaseCart();
                     break;
 
+                case "-l":
+                case "view_consumables":
+                    viewConsumables();
+                    break;
+                    
                 case "back":
                     //Relinquish control back to Menu
                     System.out.println("\n" + Ressources.username + "'s menu");
                     status = false;
                     break;
-                
-                case "-l":
-                case "view_consumables":
-                	viewConsumables();
-                	break;
                 	
                 default:
                     System.out.println("ERROR COMMAND INVALID\t please try again.\n");

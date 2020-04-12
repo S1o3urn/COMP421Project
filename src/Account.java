@@ -104,6 +104,16 @@ public class Account {
                         System.out.println(ex.getMessage());
                     }
                     conn = Ressources.closeConn(conn);
+
+                case "back":
+                    //Relinquish control back to Menu
+                    System.out.println("\n" + Ressources.username + "'s menu");
+                    status = false;
+                    break;
+
+                default:
+                    System.out.println("ERROR COMMAND INVALID\t please try again.\n");
+                    break;
             }
         }
     }
