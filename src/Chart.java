@@ -1,7 +1,14 @@
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.CategoryAxis;
+import org.jfree.chart.axis.CategoryLabelPositions;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.axis.ValueAxis;
+import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
+
+import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 import java.io.File;
@@ -136,7 +143,8 @@ public class Chart {
         while (countIndex > 0)
         {
             try{
-                chart_dataset.addValue( amount.get(index++), "Users" , usernames.get(index++) );
+                chart_dataset.addValue( amount.get(index), "Users" , usernames.get(index) );
+                index++;
                 countIndex--;
             } catch (Exception e) {
                 // Count bigger than dataset results
@@ -149,6 +157,10 @@ public class Chart {
                 "Amount($)",
                 chart_dataset, PlotOrientation.VERTICAL,
                 true,true,false);
+
+        CategoryPlot plot = (CategoryPlot) lineChartObject.getPlot();
+        CategoryAxis domainAxis = plot.getDomainAxis();
+        domainAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
 
         // Width proportional to number of plot points
         jpegWidth = 30 * count;
@@ -206,7 +218,8 @@ public class Chart {
         while (countIndex > 0)
         {
             try{
-                chart_dataset.addValue( sum.get(index++), "Users" , consumable_id.get(index++) );
+                chart_dataset.addValue( sum.get(index), "Users" , consumable_id.get(index) );
+                index++;
                 countIndex--;
             } catch (Exception e) {
                 // Count bigger than dataset results
@@ -277,7 +290,8 @@ public class Chart {
         while (countIndex > 0)
         {
             try{
-                chart_dataset.addValue( qty.get(index++), "Users" , ingredientName.get(index++) );
+                chart_dataset.addValue( qty.get(index), "Users" , ingredientName.get(index) );
+                index++;
                 countIndex--;
             } catch (Exception e) {
                 // Count bigger than dataset results
@@ -290,6 +304,10 @@ public class Chart {
                 "Quantity",
                 chart_dataset, PlotOrientation.VERTICAL,
                 true,true,false);
+
+        CategoryPlot plot = (CategoryPlot) lineChartObject.getPlot();
+        CategoryAxis domainAxis = plot.getDomainAxis();
+        domainAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
 
         // Width proportional to number of plot points
         jpegWidth = 30 * count;

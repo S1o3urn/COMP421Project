@@ -123,7 +123,7 @@ public class Login {
             firstName = scanner.nextLine();
 
             System.out.println("Please enter your last name:");
-            lastName = scanner.next();
+            lastName = scanner.nextLine();
 
             System.out.println("Please enter your date of birth with the format [YYYY-MM-DD]");
             while (!dateOfBirthInput(scanner));
@@ -203,7 +203,9 @@ public class Login {
     public static boolean passwordCreationCheck(String aNewPassword, Scanner scanner) {
 
         System.out.println("Please confirm your password by retyping it:");
-        if (!aNewPassword.equals(scanner.nextLine())) {
+
+            if (!aNewPassword.equals(scanner.nextLine())) {
+
             System.out.println("Password does not match. Please try again.");
             return false;
         }
@@ -211,10 +213,14 @@ public class Login {
     }
 
     private static boolean dateOfBirthInput(Scanner scanner){
+        System.out.println("Please enter your date of birth (YYYY-MM-DD):");
+
+        String input = scanner.nextLine();
+
         try{
-            dateOfBirth = Date.valueOf(scanner.nextLine());
+            dateOfBirth = Date.valueOf(input);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("ERROR INVALID INPUT. Please try again.");
             return false;
         }
         return true;
