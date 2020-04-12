@@ -54,6 +54,7 @@ public class MyCart {
                         try(PreparedStatement preparedStmt = conn.prepareStatement(Ressources.deleteCartRecordSQL)) {
 
                             preparedStmt.setInt   (1, Integer.parseInt(consumable_id));
+                            preparedStmt.setString(2, Ressources.username);
 
                             preparedStmt.executeUpdate();
 
@@ -65,19 +66,67 @@ public class MyCart {
 
                     // Update record
                     else {
-                        // Modify qty
+
+                        int isNewConsumable = -1;
+
+                        // Find item in cart
                         conn = Ressources.connectPSQL();
-                        try(PreparedStatement preparedStmt = conn.prepareStatement(Ressources.updateCartRecordSQL)) {
+                        try(PreparedStatement preparedStmt = conn.prepareStatement(Ressources.checkCartForConsumableSQL)) {
 
-                            preparedStmt.setInt   (1, Integer.parseInt(new_consumable_qty));
-                            preparedStmt.setString(2, consumable_id);
+                            preparedStmt.setString(1, consumable_id);
+                            preparedStmt.setString(2, Ressources.username);
 
-                            preparedStmt.executeUpdate();
+                            ResultSet rs = preparedStmt.executeQuery();
+
+                            if(rs.next() == false) {
+                                // No occurrence of item in cart
+                                isNewConsumable = 0;
+                            } else {
+                                isNewConsumable = 1;
+                            }
 
                         } catch (SQLException ex) {
                             System.out.println(ex.getMessage());
                         }
                         conn = Ressources.closeConn(conn);
+
+                        if(isNewConsumable == 0) {
+                            // Add item to cart
+                            conn = Ressources.connectPSQL();
+                            try(PreparedStatement preparedStmt = conn.prepareStatement(Ressources.addItemToCartSQL)) {
+
+                                preparedStmt.setString(1, Ressources.username);
+                                preparedStmt.setString(2, consumable_id);
+                                preparedStmt.setInt   (3, Integer.parseInt(new_consumable_qty));
+
+                                preparedStmt.executeUpdate();
+
+                            } catch (SQLException ex) {
+                                System.out.println(ex.getMessage());
+                            }
+                            conn = Ressources.closeConn(conn);
+                        }
+
+                        else if(isNewConsumable == 1){
+                            // Modify quantity of item already in cart
+                            conn = Ressources.connectPSQL();
+                            try(PreparedStatement preparedStmt = conn.prepareStatement(Ressources.updateCartRecordSQL)) {
+
+                                preparedStmt.setInt   (1, Integer.parseInt(new_consumable_qty));
+                                preparedStmt.setString(2, consumable_id);
+                                preparedStmt.setString(3, Ressources.username);
+
+                                preparedStmt.executeUpdate();
+
+                            } catch (SQLException ex) {
+                                System.out.println(ex.getMessage());
+                            }
+                            conn = Ressources.closeConn(conn);
+                        }
+
+                        else {
+                            System.out.println("This consumable_id is invalid. Please try again.");
+                        }
                     }
 
                 case "-p":

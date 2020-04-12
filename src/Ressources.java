@@ -37,11 +37,17 @@ public class Ressources {
     // SQL script to insert a healthLog record
     public static final String insertHealthLogRecordSQL = "INSERT INTO cs421g39.customer_health_logs (username, log_date, height, weight, sex) VALUES(?,?,?,?,?)";
 
+    // SQL script to find if consumable_id in cart
+    public static final String checkCartForConsumableSQL = "SELECT consumable_id FROM cs421g39.cart_contents WHERE consumable_id = ? AND username = ?";
+
+    // SQL script to insert new item in cart
+    public static final String addItemToCartSQL = "INSERT INTO cs421g39.cart_contents (username, consumable_id, consumable_qty) VALUES(?,?,?)";
+
     // SQL script to update a cart table record
-    public static final String updateCartRecordSQL = "UPDATE cs421g39.cart_contents SET consumable_qty = ? WHERE consumable_id = ?";
+    public static final String updateCartRecordSQL = "UPDATE cs421g39.cart_contents SET consumable_qty = ? WHERE consumable_id = ? AND username = ?";
 
     // SQL script to delete a record from cart table
-    public static final String deleteCartRecordSQL = "DELETE FROM cs421g39.cart_contents WHERE consumable_id = ?";
+    public static final String deleteCartRecordSQL = "DELETE FROM cs421g39.cart_contents WHERE consumable_id = ? AND username = ?";
 
     // SQL script to get accountsSpendings stored procedure data, used to circumvent stored procedure calling limitations
     public static final String callAccountsSpendingsStoredProcedureSQL = "SELECT * FROM cs421g39.\"accountsSpendings\"";
@@ -53,7 +59,7 @@ public class Ressources {
     public static final String callTopIngredientsStoredProcedureSQL = "SELECT * FROM cs421g39.\"top_ingredients\"";
 
     // SQL to get list of consumables names
-    public static final String listconsumablesnameSQL = "SELECT consumable_name FROM consumables ORDER BY consumable_name ASC";
+    public static final String listConsumablesNameSQL = "SELECT consumable_name FROM consumables ORDER BY consumable_name ASC";
 
 
     /// This method creates a connection object to the database.
