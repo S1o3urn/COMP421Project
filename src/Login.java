@@ -123,7 +123,7 @@ public class Login {
             firstName = scanner.nextLine();
 
             System.out.println("Please enter your last name:");
-            lastName = scanner.next();
+            lastName = scanner.nextLine();
 
             while (!dateOfBirthInput(scanner));
 
@@ -186,7 +186,7 @@ public class Login {
         }
 
         try {
-            if(Integer.parseInt(input) != 1 || Integer.parseInt(input) != 2 || Integer.parseInt(input) != 3 ||Integer.parseInt(input) != 4) {
+            if(Integer.parseInt(input) != 1 && Integer.parseInt(input) != 2 && Integer.parseInt(input) != 3 && Integer.parseInt(input) != 4) {
                 System.out.println("ERROR INVALID INPUT. Please try again.");
                 return false;
             } else {
@@ -202,7 +202,7 @@ public class Login {
     private static boolean passwordCreationCheck(Scanner scanner) {
 
         System.out.println("Please confirm your password by retyping it:");
-        if (newPassword != scanner.nextLine()) {
+        if (!newPassword.equals(scanner.nextLine())) {
             System.out.println("Password does not match. Please try again.");
             return false;
         }
@@ -210,10 +210,14 @@ public class Login {
     }
 
     private static boolean dateOfBirthInput(Scanner scanner){
+        System.out.println("Please enter your date of birth (YYYY-MM-DD):");
+
+        String input = scanner.nextLine();
+
         try{
-            dateOfBirth = Date.valueOf(scanner.nextLine());
+            dateOfBirth = Date.valueOf(input);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("ERROR INVALID INPUT. Please try again.");
             return false;
         }
         return true;
