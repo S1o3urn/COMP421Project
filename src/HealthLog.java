@@ -34,7 +34,7 @@ public class HealthLog {
             action = scanner.nextLine();
 
             // parse input
-            List<String> argumentsList = Arrays.asList(action);
+            List<String> argumentsList = Arrays.asList(action.split(" "));
             ListIterator<String> iterator = argumentsList.listIterator();
 
             // Loop through arguments list and populate attributes.

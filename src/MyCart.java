@@ -26,7 +26,6 @@ public class MyCart {
             System.out.println("Enter command:");
 
             action = scanner.nextLine();
-            String[] actionTokens = action.split(" ");
 
             // parse input
             List<String> argumentsList = Arrays.asList(action.split(" "));
