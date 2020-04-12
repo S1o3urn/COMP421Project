@@ -59,7 +59,8 @@ public class Ressources {
     public static final String callTopIngredientsStoredProcedureSQL = "SELECT * FROM cs421g39.\"top_ingredients\"";
 
     // SQL to get list of consumables names
-    public static final String listConsumablesNameSQL = "SELECT consumable_name FROM consumables ORDER BY consumable_name ASC";
+    public static final String listconsumablesnameSQL = "SELECT consumable_name, consumable_id FROM consumables ORDER BY consumable_name ASC";
+
 
 
     /// This method creates a connection object to the database.
