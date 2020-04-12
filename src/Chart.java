@@ -136,7 +136,8 @@ public class Chart {
         while (countIndex > 0)
         {
             try{
-                chart_dataset.addValue( amount.get(index++), "Users" , usernames.get(index++) );
+                chart_dataset.addValue( amount.get(index), "Users" , usernames.get(index) );
+                index++;
                 countIndex--;
             } catch (Exception e) {
                 // Count bigger than dataset results
@@ -206,7 +207,8 @@ public class Chart {
         while (countIndex > 0)
         {
             try{
-                chart_dataset.addValue( sum.get(index++), "Users" , consumable_id.get(index++) );
+                chart_dataset.addValue( sum.get(index), "Users" , consumable_id.get(index) );
+                index++;
                 countIndex--;
             } catch (Exception e) {
                 // Count bigger than dataset results
@@ -277,7 +279,8 @@ public class Chart {
         while (countIndex > 0)
         {
             try{
-                chart_dataset.addValue( qty.get(index++), "Users" , ingredientName.get(index++) );
+                chart_dataset.addValue( qty.get(index), "Users" , ingredientName.get(index) );
+                index++;
                 countIndex--;
             } catch (Exception e) {
                 // Count bigger than dataset results
