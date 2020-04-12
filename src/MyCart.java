@@ -28,7 +28,7 @@ public class MyCart {
             action = scanner.nextLine();
 
             // parse input
-            List<String> argumentsList = Arrays.asList(action);
+            List<String> argumentsList = Arrays.asList(action.split(" "));
             ListIterator<String> iterator = argumentsList.listIterator();
 
             String argument = iterator.next();
