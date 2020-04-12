@@ -208,6 +208,6 @@ public class MyCart {
     // User help
     private void displayAvailableCommands() {
         System.out.println("\nAvailable actions in Cart:");
-        System.out.println("viewCart(-v)\tmodifyCart(-m itemId qty)\tpurchase(-p)\tback\tview_consumables(-l)");
+        System.out.println("viewCart(-v)\tmodifyCart(-m itemId qty)\tpurchase(-p)\tview_consumables(-l)\tback");
     }
 }

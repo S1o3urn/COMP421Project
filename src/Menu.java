@@ -8,6 +8,7 @@ public class Menu {
     private MyCart cart;
     private HealthLog log;
     private Chart chart;
+    private Account account;
 
     public Menu() {
 
@@ -17,6 +18,7 @@ public class Menu {
         this.cart = new MyCart(scanner);
         this.log = new HealthLog(scanner);
         this.chart = new Chart(scanner);
+        this.account = new Account(scanner);
         mainMenuCommandParser();
     }
 
@@ -65,6 +67,10 @@ public class Menu {
                     case "help":
                         displayAvailableCommands(Ressources.acocunt_type);
                         break;
+
+                    case "-a":
+                    case "account" :
+                        account.accountMenu();
 
                     case "-c":
                     case "cart":

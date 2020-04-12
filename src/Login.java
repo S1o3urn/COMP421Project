@@ -117,7 +117,7 @@ public class Login {
 
             newPassword = scanner.nextLine();
 
-            while(!passwordCreationCheck(scanner));
+            while(!passwordCreationCheck(newPassword, scanner));
 
             System.out.println("Please enter your first name:");
             firstName = scanner.nextLine();
@@ -125,6 +125,7 @@ public class Login {
             System.out.println("Please enter your last name:");
             lastName = scanner.next();
 
+            System.out.println("Please enter your date of birth with the format [YYYY-MM-DD]");
             while (!dateOfBirthInput(scanner));
 
             System.out.println("Please enter the province you are residing in:");
@@ -186,7 +187,7 @@ public class Login {
         }
 
         try {
-            if(Integer.parseInt(input) != 1 || Integer.parseInt(input) != 2 || Integer.parseInt(input) != 3 ||Integer.parseInt(input) != 4) {
+            if(Integer.parseInt(input) != 1 && Integer.parseInt(input) != 2 && Integer.parseInt(input) != 3 && Integer.parseInt(input) != 4) {
                 System.out.println("ERROR INVALID INPUT. Please try again.");
                 return false;
             } else {
@@ -199,10 +200,10 @@ public class Login {
         }
     }
 
-    private static boolean passwordCreationCheck(Scanner scanner) {
+    public static boolean passwordCreationCheck(String aNewPassword, Scanner scanner) {
 
         System.out.println("Please confirm your password by retyping it:");
-        if (newPassword != scanner.nextLine()) {
+        if (!aNewPassword.equals(scanner.nextLine())) {
             System.out.println("Password does not match. Please try again.");
             return false;
         }

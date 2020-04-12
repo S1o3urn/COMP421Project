@@ -64,6 +64,14 @@ public class Ressources {
     // SQL to get list of consumables names
     public static final String listconsumablesnameSQL = "SELECT consumable_name, consumable_id FROM consumables";
 
+    // SQL script to view all account related fields
+    public static String viewAccountSettingsSQL = "SELECT username, password, creation_date, first_name, last_name, date_of_birth, shipping_province, shipping_postal_code, shipping_address, category_id, account_status FROM cs421g39.accounts WHERE username = ?";
+
+    // SQL script to update password
+    public static String updatePasswordSQL = "UPDATE cs421g39.accounts SET password = ? WHERE username = ?";
+
+    // SQL script to update category
+    public static String updateCategorySQL = "UPDATE cs421g39.accounts SET category_id = ? WHERE username = ?";
 
 
     /// This method creates a connection object to the database.
