@@ -22,8 +22,11 @@ public class Ressources {
     //Test admin login for statistics charts:
     //admin     admin2020
 
-    /// SQL script to fetch password based on username
+    // SQL script to fetch password based on username
     public static final String loginCheckSQL = "SELECT username, password, account_status FROM cs421g39.accounts WHERE username = ?";
+
+    // SQL script to insert a new account into accounts table.
+    public static final String createAccountSQL = "INSERT INTO cs421g39.accounts (username, password, creation_date, first_name, last_name, date_of_birth, shipping_province, shipping_postal_code, shipping_address, category_id, account_status) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 
     // SQL script to fetch all items in cart for an user
     public static final String retrieveCartContentSQL = "SELECT consumable_id, consumable_qty FROM cs421g39.cart_contents WHERE username = ?";
@@ -59,7 +62,7 @@ public class Ressources {
     public static final String callTopIngredientsStoredProcedureSQL = "SELECT * FROM cs421g39.\"top_ingredients\"";
 
     // SQL to get list of consumables names
-    public static final String listconsumablesnameSQL = "SELECT consumable_name, consumable_id FROM consumables ORDER BY consumable_name ASC";
+    public static final String listconsumablesnameSQL = "SELECT consumable_name, consumable_id FROM consumables";
 
 
 
