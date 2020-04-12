@@ -90,7 +90,12 @@ public class MyCart {
                     System.out.println("\n" + Ressources.username + "'s menu");
                     status = false;
                     break;
-
+                
+                case "-l":
+                case "view_consumables":
+                	viewConsumables();
+                	break;
+                	
                 default:
                     System.out.println("ERROR COMMAND INVALID\t please try again.\n");
                     break;
@@ -126,10 +131,31 @@ public class MyCart {
         }
         conn = Ressources.closeConn(conn);
     }
+    
+  //List all available items for sale
+    private void viewConsumables(){
+        conn = Ressources.connectPSQL();
+        try{
+            PreparedStatement pst = conn.prepareStatement(Ressources.listconsumablesnameSQL);
+            ResultSet rs = pst.executeQuery();
+            System.out.println("List of consumables:(id name) \n");
+
+            while(rs.next()){
+                String meal = rs.getString("consumable_name");
+                int id = rs.getInt("consumable_id");
+                System.out.format("%s\t%s \n", id, meal);
+            }
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+        conn = Ressources.closeConn(conn);
+
+    }
 
     // User help
     private void displayAvailableCommands() {
         System.out.println("\nAvailable actions in Cart:");
-        System.out.println("viewCart(-v)\tmodifyCart(-m itemId qty)\tpurchase(-p)\tback");
+        System.out.println("viewCart(-v)\tmodifyCart(-m itemId qty)\tpurchase(-p)\tback\tview_consumables(-l)");
     }
 }
