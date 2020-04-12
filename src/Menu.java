@@ -4,25 +4,23 @@ import java.util.Scanner;
 public class Menu {
 
     private String action;
-    private Connection conn;
     private Scanner scanner;
     private MyCart cart;
     private HealthLog log;
     private Chart chart;
 
-    public Menu(Connection conn) {
+    public Menu() {
 
         System.out.println("\nWelcome Back " + Ressources.username + "!");
         System.out.println("Account status: " + Ressources.acocunt_type);
-        this.conn = conn;
         this.scanner = new Scanner(System.in);
-        this.cart = new MyCart(conn, scanner);
-        this.log = new HealthLog(conn, scanner);
-        this.chart = new Chart(conn, scanner);
+        this.cart = new MyCart(scanner);
+        this.log = new HealthLog(scanner);
+        this.chart = new Chart(scanner);
         mainMenuCommandParser();
     }
 
-
+    // Handles user input on the main menu
     private void mainMenuCommandParser() {
 
         if(Ressources.acocunt_type.equals("admin")) {

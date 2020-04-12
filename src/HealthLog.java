@@ -11,13 +11,12 @@ import org.jfree.data.category.DefaultCategoryDataset;
 
 public class HealthLog {
 
+    private static Connection conn;
     private String action;
-    private Connection conn;
     private Scanner scanner;
 
     // Constructor
-    public HealthLog(Connection conn, Scanner scanner) {
-        this.conn = conn;
+    public HealthLog(Scanner scanner) {
         this.scanner = scanner;
     }
 
@@ -35,7 +34,7 @@ public class HealthLog {
             action = scanner.nextLine();
 
             // parse input
-            List<String> argumentsList = Arrays.asList(action);
+            List<String> argumentsList = Arrays.asList(action.split(" "));
             ListIterator<String> iterator = argumentsList.listIterator();
 
             // Loop through arguments list and populate attributes.
@@ -82,6 +81,7 @@ public class HealthLog {
                         }
 
                         //Insert data
+                        conn = Ressources.connectPSQL();
                         try (PreparedStatement statement = conn.prepareStatement(Ressources.insertHealthLogRecordSQL)) {
 
                             statement.setString(1, Ressources.username);
@@ -96,6 +96,7 @@ public class HealthLog {
                         } catch (SQLException ex) {
                             System.out.println(ex.getMessage());
                         }
+                        conn = Ressources.closeConn(conn);
 
                     case "back":
                         //Relinquish control back to Menu
@@ -119,10 +120,10 @@ public class HealthLog {
         String sex = "";
 
         // Fetch all user health data
+        conn = Ressources.connectPSQL();
         try (PreparedStatement pst = conn.prepareStatement(Ressources.retrieveUserHealthLogsSQL)) {
 
             pst.setString(1, Ressources.username);
-
             ResultSet rs = pst.executeQuery();
 
             while (rs.next()) {
@@ -134,9 +135,11 @@ public class HealthLog {
                 sex = rs.getString(4);
             }
 
+            rs.close();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
+        conn = Ressources.closeConn(conn);
 
         // Create desired graph
         plotGraph(mode, log_date, height, weight, sex);
@@ -147,10 +150,10 @@ public class HealthLog {
 
         String sex = "";
 
+        conn = Ressources.connectPSQL();
         try (PreparedStatement pst = conn.prepareStatement(Ressources.retrieveSexSQL)) {
 
             pst.setString(1, Ressources.username);
-
             ResultSet rs = pst.executeQuery();
 
             while (rs.next()) {
@@ -159,9 +162,12 @@ public class HealthLog {
                 sex = rs.getString(1);
             }
 
+            rs.close();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
+        conn = Ressources.closeConn(conn);
+
         return sex;
     }
 

@@ -1,3 +1,7 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
 public class Ressources {
 
     //TODO implement safer way to store db credentials
@@ -17,8 +21,6 @@ public class Ressources {
 
     //Test admin login for statistics charts:
     //admin     admin2020
-    //TODO: create admin account to test stats graphs
-
 
     /// SQL script to fetch password based on username
     public static final String loginCheckSQL = "SELECT username, password, account_status FROM cs421g39.accounts WHERE username = ?";
@@ -35,11 +37,17 @@ public class Ressources {
     // SQL script to insert a healthLog record
     public static final String insertHealthLogRecordSQL = "INSERT INTO cs421g39.customer_health_logs (username, log_date, height, weight, sex) VALUES(?,?,?,?,?)";
 
+    // SQL script to find if consumable_id in cart
+    public static final String checkCartForConsumableSQL = "SELECT consumable_id FROM cs421g39.cart_contents WHERE consumable_id = ? AND username = ?";
+
+    // SQL script to insert new item in cart
+    public static final String addItemToCartSQL = "INSERT INTO cs421g39.cart_contents (username, consumable_id, consumable_qty) VALUES(?,?,?)";
+
     // SQL script to update a cart table record
-    public static final String updateCartRecordSQL = "UPDATE cs421g39.cart_contents SET consumable_qty = ? WHERE consumable_id = ?";
+    public static final String updateCartRecordSQL = "UPDATE cs421g39.cart_contents SET consumable_qty = ? WHERE consumable_id = ? AND username = ?";
 
     // SQL script to delete a record from cart table
-    public static final String deleteCartRecordSQL = "DELETE FROM cs421g39.cart_contents WHERE consumable_id = ?";
+    public static final String deleteCartRecordSQL = "DELETE FROM cs421g39.cart_contents WHERE consumable_id = ? AND username = ?";
 
     // SQL script to get accountsSpendings stored procedure data, used to circumvent stored procedure calling limitations
     public static final String callAccountsSpendingsStoredProcedureSQL = "SELECT * FROM cs421g39.\"accountsSpendings\"";
@@ -49,4 +57,42 @@ public class Ressources {
 
     // SQL script to get top_ingredients stored procedure data, used to circumvent stored procedure calling limitations
     public static final String callTopIngredientsStoredProcedureSQL = "SELECT * FROM cs421g39.\"top_ingredients\"";
+
+    // SQL to get list of consumables names
+    public static final String listconsumablesnameSQL = "SELECT consumable_name, consumable_id FROM consumables ORDER BY consumable_name ASC";
+
+
+
+    /// This method creates a connection object to the database.
+    public static Connection connectPSQL() {
+        Connection conn = null;
+
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            System.err.println("PostgreSQL DataSource unable to load PostgreSQL JDBC Driver");
+            System.exit(1);
+        }
+
+        try {
+            conn = DriverManager.getConnection(Ressources.url, Ressources.user, Ressources.password);
+            System.out.println("Connected to the PostgreSQL server successfully.\n");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            System.exit(1);
+        }
+
+        return conn;
+    }
+
+    // Closes a connection.
+    public static Connection closeConn(Connection conn) {
+        try {
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+        return null;
+    }
 }
