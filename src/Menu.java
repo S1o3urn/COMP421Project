@@ -119,6 +119,7 @@ public class Menu {
                     case "-a":
                     case "account" :
                         account.accountMenu();
+                        break;
 
                     case "-c":
                     case "cart":
@@ -150,7 +151,7 @@ public class Menu {
         if (mode.equals("admin")) {
             System.out.println("[-c|chart]\t[-ce|checkExpiry]\t[-ad|applyDiscount percentage]\texit\t[-h|help]");
         } else{
-            System.out.println("[-c|cart]\t[-hl|healthLog]\texit\t[-h|help]");
+            System.out.println("[-a|account]\t[-c|cart]\t[-hl|healthLog]\texit\t[-h|help]");
         }
     }
 

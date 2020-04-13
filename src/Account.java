@@ -52,17 +52,19 @@ public class Account {
 
                         ResultSet rs = preparedStmt.executeQuery();
 
-                        System.out.println("Username: " + rs.getString(1));
-                        System.out.println("Password: " + rs.getString(2));
-                        System.out.println("Account Creation Date: " + rs.getTimestamp(3));
-                        System.out.println("First Name: " + rs.getString(4));
-                        System.out.println("Last Name: " + rs.getString(5));
-                        System.out.println("Date Of Birth: " + rs.getDate(6));
-                        System.out.println("Province: " + rs.getString(7));
-                        System.out.println("Postal Code: " + rs.getString(8));
-                        System.out.println("Address: " + rs.getString(9));
-                        System.out.println("Category: " + rs.getString(10));
-                        System.out.println("Account Status: " + rs.getString(11));
+                        while(rs.next()){
+                            System.out.println("Username: " + rs.getString(1));
+                            System.out.println("Password: " + rs.getString(2));
+                            System.out.println("Account Creation Date: " + rs.getTimestamp(3));
+                            System.out.println("First Name: " + rs.getString(4));
+                            System.out.println("Last Name: " + rs.getString(5));
+                            System.out.println("Date Of Birth: " + rs.getDate(6));
+                            System.out.println("Province: " + rs.getString(7));
+                            System.out.println("Postal Code: " + rs.getString(8));
+                            System.out.println("Address: " + rs.getString(9));
+                            System.out.println("Category: " + rs.getString(10));
+                            System.out.println("Account Status: " + rs.getString(11));
+                        }
 
                         rs.close();
                     } catch (SQLException ex) {
@@ -87,6 +89,7 @@ public class Account {
                         System.out.println(ex.getMessage());
                     }
                     conn = Ressources.closeConn(conn);
+                    break;
 
                 case "-c":
                 case "category":
@@ -104,6 +107,7 @@ public class Account {
                         System.out.println(ex.getMessage());
                     }
                     conn = Ressources.closeConn(conn);
+                    break;
 
                 case "back":
                     //Relinquish control back to Menu
@@ -151,6 +155,6 @@ public class Account {
     // User help
     private void displayAvailableCommands() {
         System.out.println("\nAvailable actions in Cart:");
-        System.out.println("View account settings(-v)\tback");
+        System.out.println("View account settings(-v)\tChange password(-p)\tChange category(-c)\tback");
     }
 }

@@ -53,7 +53,12 @@ public class HealthLog {
 
                     case "-g":
                     case "generateGraph":
-                        String specifiedGraph = iterator.next();
+                        String specifiedGraph = "";
+                        try{
+                            specifiedGraph = iterator.next();
+                        } catch (NoSuchElementException e) {
+                            e.getMessage();
+                        }
                         switch(specifiedGraph) {
                             case "-w":
                             case "weight":
@@ -65,10 +70,12 @@ public class HealthLog {
                                 fetchGraphData(2);
                                 break;
 
-                            case "b":
+                            case "-b":
                             case "bmi":
                                 fetchGraphData(3);
                                 break;
+                            default:
+                                System.out.println("ERROR Input Invalid. Please try again.");
                         }
                         break;
 
@@ -233,6 +240,8 @@ public class HealthLog {
                     ChartUtilities.saveChartAsJPEG(lineChart ,lineChartObject, jpegWidth ,jpegHeight);
                 } catch (IOException e) {
                     e.printStackTrace();
+                } catch (NoSuchElementException ex) {
+                    ex.getMessage();
                 }
                 break;
 
@@ -271,6 +280,8 @@ public class HealthLog {
                     ChartUtilities.saveChartAsJPEG(lineChart ,lineChartObject, jpegWidth ,jpegHeight);
                 } catch (IOException e) {
                     e.printStackTrace();
+                } catch (NoSuchElementException ex) {
+                    ex.getMessage();
                 }
                 break;
 
@@ -309,6 +320,8 @@ public class HealthLog {
                     ChartUtilities.saveChartAsJPEG(lineChart ,lineChartObject, jpegWidth ,jpegHeight);
                 } catch (IOException e) {
                     e.printStackTrace();
+                } catch (NoSuchElementException ex) {
+                    ex.getMessage();
                 }
                 break;
         }

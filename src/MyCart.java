@@ -157,6 +157,7 @@ public class MyCart {
     //TODO clear all items in cart and decrement item counts
     //TODO should add a constraint to remove consumable qty 0 from cart
     private void purchaseCart() {
+        //die another day
     }
 
     // Displays all items in cart along with their quantity

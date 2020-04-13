@@ -112,10 +112,7 @@ public class Login {
 
             newUsername = scanner.nextLine();
 
-            System.out.println("Please create a password:");
-            System.out.println("Password should be 10 to 15 characters");
-
-            newPassword = scanner.nextLine();
+            while(!newPasswordConstraint(scanner));
 
             while(!passwordCreationCheck(newPassword, scanner));
 
@@ -198,6 +195,16 @@ public class Login {
             System.out.println(e.getMessage());
             return false;
         }
+    }
+
+    private static boolean newPasswordConstraint(Scanner scanner) {
+        System.out.println("Please create a password:");
+        System.out.println("Password should be 10 to 15 characters");
+        newPassword = scanner.nextLine();
+        if(newPassword.length() < 10 || newPassword.length() > 15) {
+            return false;
+        }
+        return true;
     }
 
     public static boolean passwordCreationCheck(String aNewPassword, Scanner scanner) {
