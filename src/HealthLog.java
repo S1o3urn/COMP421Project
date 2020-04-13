@@ -1,11 +1,17 @@
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.sql.*;
 import java.sql.Date;
 import java.util.*;
+import java.util.List;
+
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtilities;
+import org.jfree.chart.axis.CategoryAxis;
+import org.jfree.chart.axis.CategoryLabelPositions;
+import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 
@@ -182,6 +188,9 @@ public class HealthLog {
         int jpegHeight;
         File lineChart;
 
+        CategoryPlot plot;
+        CategoryAxis domainAxis;
+
         switch (mode) {
 
             // Weight
@@ -189,7 +198,8 @@ public class HealthLog {
                 index = 0;
                 while (log_date.size() > index)
                 {
-                    line_chart_dataset.addValue( weight.get(index++), "weight" , log_date.get(index++) );
+                    line_chart_dataset.addValue( weight.get(index), "weight" , log_date.get(index) );
+                    index++;
                 }
 
                 lineChartObject = ChartFactory.createLineChart(
@@ -197,6 +207,13 @@ public class HealthLog {
                         "Weight (kg)",
                         line_chart_dataset,PlotOrientation.VERTICAL,
                         true,true,false);
+
+                plot = (CategoryPlot) lineChartObject.getPlot();
+                domainAxis = plot.getDomainAxis();
+                domainAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
+
+                // Change line width
+                plot.getRenderer().setSeriesStroke(0, new BasicStroke(3.0f));
 
                 // Width proportional to number of plot points
                 jpegWidth = 50 * weight.size();
@@ -212,13 +229,15 @@ public class HealthLog {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                break;
 
             // Height
             case 2:
                 index = 0;
                 while (log_date.size() > index)
                 {
-                    line_chart_dataset.addValue( weight.get(index++), "weight" , log_date.get(index++) );
+                    line_chart_dataset.addValue( height.get(index), "weight" , log_date.get(index) );
+                    index++;
                 }
 
                 lineChartObject = ChartFactory.createLineChart(
@@ -226,6 +245,13 @@ public class HealthLog {
                         "Height (cm)",
                         line_chart_dataset,PlotOrientation.VERTICAL,
                         true,true,false);
+
+                plot = (CategoryPlot) lineChartObject.getPlot();
+                domainAxis = plot.getDomainAxis();
+                domainAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
+
+                // Change line width
+                plot.getRenderer().setSeriesStroke(0, new BasicStroke(3.0f));
 
                 // Width proportional to number of plot points
                 jpegWidth = 50 * height.size();
@@ -241,13 +267,15 @@ public class HealthLog {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                break;
 
             // BMI
             case 3:
                 index = 0;
                 while (log_date.size() > index)
                 {
-                    line_chart_dataset.addValue( weight.get(index++)/Math.pow((height.get(index++)/100),2), "bmi" , log_date.get(index++) );
+                    line_chart_dataset.addValue( weight.get(index)/Math.pow((height.get(index)/100),2), "bmi" , log_date.get(index) );
+                    index++;
                 }
 
                 lineChartObject = ChartFactory.createLineChart(
@@ -255,6 +283,13 @@ public class HealthLog {
                         "Bmi (kg/m*m)",
                         line_chart_dataset,PlotOrientation.VERTICAL,
                         true,true,false);
+
+                plot = (CategoryPlot) lineChartObject.getPlot();
+                domainAxis = plot.getDomainAxis();
+                domainAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
+
+                // Change line width
+                plot.getRenderer().setSeriesStroke(0, new BasicStroke(3.0f));
 
                 // Width proportional to number of plot points
                 jpegWidth = 50 * height.size();
@@ -270,13 +305,14 @@ public class HealthLog {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                break;
         }
     }
 
     // Use help
     private void displayAvailableCommands() {
         System.out.println("Available actions in HealthLog:");
-        System.out.println("[-g|generateGraph] mode\tmode: [-w|weight],[-h|height],[-b|bmi])");
+        System.out.println("[-g|generateGraph] mode\t(mode: [-w|weight],[-h|height],[-b|bmi])");
         System.out.println("[-a|addLog] date weight height sex(optional)\t(date: [YYYY-MM-DD])\t weight: kg\theight: cm\t sex: [female|male]");
         System.out.println("back");
     }
