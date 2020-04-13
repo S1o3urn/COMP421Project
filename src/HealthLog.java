@@ -74,21 +74,22 @@ public class HealthLog {
 
                     case "-a":
                     case "addPlot":
-                        String date = iterator.next();
-                        String weight = iterator.next();
-                        String height = iterator.next();
-
-                        // Allows for optional sex input
-                        String sex;
-                        try{
-                            sex = iterator.next();
-                        } catch(Exception e) {
-                            sex = fetchSex();
-                        }
 
                         //Insert data
                         conn = Ressources.connectPSQL();
                         try (PreparedStatement statement = conn.prepareStatement(Ressources.insertHealthLogRecordSQL)) {
+
+                            String date = iterator.next();
+                            String weight = iterator.next();
+                            String height = iterator.next();
+
+                            // Allows for optional sex input
+                            String sex;
+                            try{
+                                sex = iterator.next();
+                            } catch(Exception e) {
+                                sex = fetchSex();
+                            }
 
                             statement.setString(1, Ressources.username);
                             statement.setDate(2, Date.valueOf(date));
@@ -100,6 +101,8 @@ public class HealthLog {
                             statement.executeBatch();
 
                         } catch (SQLException ex) {
+                            System.out.println(ex.getMessage());
+                        } catch (NoSuchElementException ex) {
                             System.out.println(ex.getMessage());
                         }
                         conn = Ressources.closeConn(conn);
@@ -143,6 +146,8 @@ public class HealthLog {
 
             rs.close();
         } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        } catch (NoSuchElementException ex) {
             System.out.println(ex.getMessage());
         }
         conn = Ressources.closeConn(conn);

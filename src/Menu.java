@@ -2,10 +2,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Scanner;
+import java.util.*;
 
 public class Menu {
 
@@ -64,10 +61,10 @@ public class Menu {
 
                             ResultSet rs = pst.executeQuery();
 
-                            System.out.println("ingredient_id\tprice_per_unit");
+                            System.out.println("ingredient_id\t\t\tprice_per_unit");
 
                             while (rs.next()) {
-                               System.out.println(rs.getString(1) + "\t" + rs.getInt(2));
+                               System.out.println(rs.getString(1) + "\t\t\t" + rs.getInt(2));
                             }
 
                             rs.close();
@@ -75,15 +72,14 @@ public class Menu {
                             System.out.println(ex.getMessage());
                         }
                         conn = Ressources.closeConn(conn);
+                        break;
 
                     case "-ad":
                     case "applyDiscount":
-                        int discountValue = Integer.parseInt(iterator.next());
-
                         conn = Ressources.connectPSQL();
                         try (PreparedStatement pst = conn.prepareStatement(Ressources.applyDiscount)) {
-
-                            pst.setInt(1, discountValue);
+                            Float discountValue = Float.parseFloat(iterator.next());
+                            pst.setFloat(1, discountValue);
                             ResultSet rs = pst.executeQuery();
 
                             System.out.println("Action completed");
@@ -91,8 +87,11 @@ public class Menu {
                             rs.close();
                         } catch (SQLException ex) {
                             System.out.println(ex.getMessage());
+                        } catch(NoSuchElementException ex) {
+                            System.out.println("Have you forgotten an argument?");
                         }
                         conn = Ressources.closeConn(conn);
+                        break;
 
                     case "exit":
                         exit();
@@ -149,7 +148,7 @@ public class Menu {
     private void displayAvailableCommands(String mode) {
         System.out.println("\nAvailable actions in Menu:");
         if (mode.equals("admin")) {
-            System.out.println("[-c|chart]\texit\t[-h|help]");
+            System.out.println("[-c|chart]\t[-ce|checkExpiry]\t[-ad|applyDiscount percentage]\texit\t[-h|help]");
         } else{
             System.out.println("[-c|cart]\t[-hl|healthLog]\texit\t[-h|help]");
         }
