@@ -14,3 +14,5 @@ No indexes on pimary or unique constraints. </br>
 Provide rationale to index creation.
 4. Export data to CSV
 5. Bonus: JFreeChart as previously discussed to health data tracking or GUI (DONE)
+
+Google Drive Link: https://drive.google.com/drive/folders/1YKQDP6QK72KrX6FbM54Z77ZY1a0ulgPY?usp=sharing
