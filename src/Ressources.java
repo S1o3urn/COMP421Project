@@ -73,6 +73,9 @@ public class Ressources {
     // SQL script to update category
     public static String updateCategorySQL = "UPDATE cs421g39.accounts SET category_id = ? WHERE username = ?";
 
+    public static String checkCloseToExpiringIngredients = "SELECT ingredient_id, price_per_unit FROM ingredients_instances WHERE expiration < (now() + interval '2 week') ORDER BY ingredient_id";
+
+    public static String applyDiscount = "SELECT * FROM bulkIngredientPriceChange(?)";
 
     /// This method creates a connection object to the database.
     public static Connection connectPSQL() {

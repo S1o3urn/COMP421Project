@@ -140,7 +140,7 @@ public class MyCart {
                 case "view_consumables":
                     viewConsumables();
                     break;
-                    
+
                 case "back":
                     //Relinquish control back to Menu
                     System.out.println("\n" + Ressources.username + "'s menu");

@@ -213,7 +213,6 @@ public class Login {
     }
 
     private static boolean dateOfBirthInput(Scanner scanner){
-        System.out.println("Please enter your date of birth (YYYY-MM-DD):");
 
         String input = scanner.nextLine();
 

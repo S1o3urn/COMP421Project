@@ -1,8 +1,15 @@
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ListIterator;
 import java.util.Scanner;
 
 public class Menu {
 
+    private static Connection conn;
     private String action;
     private Scanner scanner;
     private MyCart cart;
@@ -33,8 +40,13 @@ public class Menu {
 
                 // Scanner to parse input
                 action = scanner.nextLine();
+                // parse input
+                List<String> argumentsList = Arrays.asList(action.split(" "));
 
-                switch (action) {
+                ListIterator<String> iterator = argumentsList.listIterator();
+                String argument = iterator.next();
+
+                switch (argument) {
                     case "-h":
                     case "help":
                         displayAvailableCommands(Ressources.acocunt_type);
@@ -44,6 +56,43 @@ public class Menu {
                     case "chart":
                         chart.chartMenu();
                         break;
+
+                    case "-ce":
+                    case "checkExpiry":
+                        conn = Ressources.connectPSQL();
+                        try (PreparedStatement pst = conn.prepareStatement(Ressources.checkCloseToExpiringIngredients)) {
+
+                            ResultSet rs = pst.executeQuery();
+
+                            System.out.println("ingredient_id\tprice_per_unit");
+
+                            while (rs.next()) {
+                               System.out.println(rs.getString(1) + "\t" + rs.getInt(2));
+                            }
+
+                            rs.close();
+                        } catch (SQLException ex) {
+                            System.out.println(ex.getMessage());
+                        }
+                        conn = Ressources.closeConn(conn);
+
+                    case "-ad":
+                    case "applyDiscount":
+                        int discountValue = Integer.parseInt(iterator.next());
+
+                        conn = Ressources.connectPSQL();
+                        try (PreparedStatement pst = conn.prepareStatement(Ressources.applyDiscount)) {
+
+                            pst.setInt(1, discountValue);
+                            ResultSet rs = pst.executeQuery();
+
+                            System.out.println("Action completed");
+
+                            rs.close();
+                        } catch (SQLException ex) {
+                            System.out.println(ex.getMessage());
+                        }
+                        conn = Ressources.closeConn(conn);
 
                     case "exit":
                         exit();
